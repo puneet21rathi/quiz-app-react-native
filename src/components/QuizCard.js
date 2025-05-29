@@ -3,7 +3,11 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const QuizCard = ({ title, onPress }) => {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={onPress}
+      activeOpacity={0.7}
+    >
       <Text style={styles.cardTitle}>{title}</Text>
     </TouchableOpacity>
   );
@@ -17,7 +21,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
   },
-  cardTitle: { fontSize: 18, fontWeight: "bold", color: "#fff" },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fff",
+  },
 });
 
 export default QuizCard;
