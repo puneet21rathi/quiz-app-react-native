@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  FlatList,
+  StyleSheet,
+  Platform,
+} from "react-native";
 import QuizCard from "../components/QuizCard";
 
 const quizzes = [
@@ -9,22 +15,41 @@ const quizzes = [
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Select a Quiz</Text>
       <FlatList
+        contentContainerStyle={styles.listContainer}
         data={quizzes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <QuizCard title={item.title} onPress={() => navigation.replace("QuizScreen", { quizId: item.id })} />
+          <QuizCard
+            title={item.title}
+            onPress={() =>
+              navigation.replace("QuizScreen", { quizId: item.id })
+            }
+          />
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 10, textAlign: "center" },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingTop: Platform.OS === "android" ? 30 : 0,
+  },
+  listContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginVertical: 16,
+    textAlign: "center",
+  },
 });
 
 export default HomeScreen;
