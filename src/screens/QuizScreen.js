@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 SafeAreaView,
 ScrollView,
@@ -55,9 +55,34 @@ const [index, setIndex] = useState(0);
 const [selected, setSelected] = useState(null);
 const [score, setScore] = useState(0);
 const [answered, setAnswered] = useState(false);
+const [shuffledOptions, setShuffledOptions] = useState([]);
+const [correctOptionIndex, setCorrectOptionIndex] = useState(null);
+
+useEffect(() => {
+const currentQuestion = questions[index];
+const originalOptions = [...currentQuestion.options];
+
+javascript
+Copy
+Edit
+// Fisher-Yates shuffle
+const shuffled = [...originalOptions];
+for (let i = shuffled.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+}
+
+const correctAnswerText = originalOptions[currentQuestion.correct];
+const newCorrectIndex = shuffled.indexOf(correctAnswerText);
+
+setShuffledOptions(shuffled);
+setCorrectOptionIndex(newCorrectIndex);
+setSelected(null);
+setAnswered(false);
+}, [index]);
 
 const handleCheck = () => {
-if (selected === questions[index].correct) {
+if (selected === correctOptionIndex) {
 setScore(score + 1);
 }
 setAnswered(true);
@@ -65,8 +90,6 @@ setAnswered(true);
 
 const handleNext = () => {
 setIndex(index + 1);
-setSelected(null);
-setAnswered(false);
 };
 
 const handleFinish = () => {
@@ -86,15 +109,17 @@ return (
 php-template
 Copy
 Edit
-    <Text style={styles.question}>{questions[index].question}</Text>
+    <Text style={styles.question}>
+      {questions[index].question}
+    </Text>
 
-    {questions[index].options.map((opt, i) => (
+    {shuffledOptions.map((opt, i) => (
       <OptionButton
         key={i}
         option={opt}
         isSelected={selected === i}
-        isCorrect={answered && i === questions[index].correct}
-        isWrong={answered && selected === i && selected !== questions[index].correct}
+        isCorrect={answered && i === correctOptionIndex}
+        isWrong={answered && selected === i && selected !== correctOptionIndex}
         onPress={() => setSelected(i)}
       />
     ))}
