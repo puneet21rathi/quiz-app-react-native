@@ -62,10 +62,6 @@ useEffect(() => {
 const currentQuestion = questions[index];
 const originalOptions = [...currentQuestion.options];
 
-javascript
-Copy
-Edit
-// Fisher-Yates shuffle
 const shuffled = [...originalOptions];
 for (let i = shuffled.length - 1; i > 0; i--) {
   const j = Math.floor(Math.random() * (i + 1));
@@ -106,10 +102,7 @@ return (
 📘 Question {index + 1} of {questions.length}
 </Text>
 
-php-template
-Copy
-Edit
-    <Text style={styles.question}>
+<Text style={styles.question}>
       {questions[index].question}
     </Text>
 
