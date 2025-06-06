@@ -9,11 +9,10 @@ SafeAreaView,
 } from "react-native";
 
 const ResultScreen = ({ route, navigation }) => {
-const { score, total } = route.params;
+const { score, total, quizId } = route.params;
 
 const getMessage = () => {
 const percentage = (score / total) * 100;
-
 
 if (percentage === 100) return "🏆 Perfect Score! You’re a genius!";
 if (percentage >= 80) return "🎉 Great job! You really know your stuff.";
@@ -30,8 +29,16 @@ You scored: <Text style={styles.scoreHighlight}>{score}</Text> / {total}
 </Text>
 <Text style={styles.message}>{getMessage()}</Text>
 
-
-    <View style={styles.buttonContainer}>
+<View style={styles.buttonContainer}>
+      <Button
+        title="🔁 Restart Quiz"
+        onPress={() =>
+          navigation.replace("QuizScreen", {
+            quizId,
+          })
+        }
+      />
+      <View style={{ marginTop: 10 }} />
       <Button title="🏠 Go to Home" onPress={() => navigation.replace("HomeScreen")} />
     </View>
   </View>

@@ -61,6 +61,8 @@ const [correctOptionIndex, setCorrectOptionIndex] = useState(null);
 useEffect(() => {
 const currentQuestion = questions[index];
 const originalOptions = [...currentQuestion.options];
+
+// Fisher-Yates shuffle
 const shuffled = [...originalOptions];
 for (let i = shuffled.length - 1; i > 0; i--) {
   const j = Math.floor(Math.random() * (i + 1));
@@ -91,6 +93,7 @@ const handleFinish = () => {
 navigation.replace("ResultScreen", {
 score,
 total: questions.length,
+quizId, // ✅ Ye line add hui hai for restart quiz
 });
 };
 
@@ -100,7 +103,9 @@ return (
 <Text style={styles.heading}>
 📘 Question {index + 1} of {questions.length}
 </Text>
-<Text style={styles.question}>
+
+
+    <Text style={styles.question}>
       {questions[index].question}
     </Text>
 
@@ -146,7 +151,7 @@ paddingBottom: 30,
 heading: {
 fontSize: 18,
 fontWeight: "bold",
-marginTop: 40, // 👈 extra margin to avoid notch
+marginTop: 40,
 marginBottom: 10,
 color: "#444",
 textAlign: "center",
