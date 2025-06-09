@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  SafeAreaView,
-  Text,
-  FlatList,
-  StyleSheet,
-  Platform,
-} from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import QuizCard from "../components/QuizCard";
 
 const quizzes = [
@@ -15,10 +9,14 @@ const quizzes = [
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Select a Quiz</Text>
+    <View style={styles.container}>
+      {/* 🔥 App Title */}
+      <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
+
+      {/* Quiz Section */}
+      <Text style={styles.sectionTitle}>Select a Quiz</Text>
+
       <FlatList
-        contentContainerStyle={styles.listContainer}
         data={quizzes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -30,25 +28,30 @@ const HomeScreen = ({ navigation }) => {
           />
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
+    paddingTop: 40,
     backgroundColor: "#fff",
-    paddingTop: Platform.OS === "android" ? 30 : 0,
   },
-  listContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-  },
-  title: {
-    fontSize: 24,
+  appTitle: {
+    fontSize: 28,
     fontWeight: "bold",
-    marginVertical: 16,
     textAlign: "center",
+    marginBottom: 20,
+    color: "#2c3e50",
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: "600",
+    textAlign: "center",
+    marginBottom: 10,
+    color: "#333",
   },
 });
 
