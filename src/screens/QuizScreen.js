@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Platform,
   View,
-  Animated,
 } from "react-native";
 import OptionButton from "../components/OptionButton";
 
@@ -39,34 +38,66 @@ const QuizScreen = ({ route, navigation }) => {
   const [shuffledOptions, setShuffledOptions] = useState([]);
   const [correctOptionIndex, setCorrectOptionIndex] = useState(null);
 
+  // TIMER STATES
+  const TOTAL_TIME = 15;               // seconds per question
+  const [timer, setTimer] = useState(TOTAL_TIME);
+  const timerRef = useRef(null);
+
+  // Shuffle options and reset for each new question:
   useEffect(() => {
-    const currentQuestion = questions[index];
-    const originalOptions = [...currentQuestion.options];
-
-    const shuffled = [...originalOptions];
-    for (let i = shuffled.length - 1; i > 0; i--) {
+    const current = questions[index];
+    const orig = [...current.options];
+    const shuffle = [...orig];
+    for (let i = shuffle.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      [shuffle[i], shuffle[j]] = [shuffle[j], shuffle[i]];
     }
-
-    const correctAnswerText = originalOptions[currentQuestion.correct];
-    const newCorrectIndex = shuffled.indexOf(correctAnswerText);
-
-    setShuffledOptions(shuffled);
-    setCorrectOptionIndex(newCorrectIndex);
+    const correctText = orig[current.correct];
+    setShuffledOptions(shuffle);
+    setCorrectOptionIndex(shuffle.indexOf(correctText));
     setSelected(null);
     setAnswered(false);
+    // RESET TIMER:
+    setTimer(TOTAL_TIME);
+  }, [index]);
+
+  // Countdown effect:
+  useEffect(() => {
+    // Clear any existing interval
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    // Start new one
+    timerRef.current = setInterval(() => {
+      setTimer(prev => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          // Auto-advance or finish
+          if (index < questions.length - 1) {
+            setIndex(i => i + 1);
+          } else {
+            navigation.replace("ResultScreen", {
+              score,
+              total: questions.length,
+              quizId,
+            });
+          }
+          return TOTAL_TIME; // reset for next usage
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    // Cleanup on unmount
+    return () => clearInterval(timerRef.current);
   }, [index]);
 
   const handleCheck = () => {
-    if (selected === correctOptionIndex) {
-      setScore(score + 1);
-    }
+    if (selected === correctOptionIndex) setScore(s => s + 1);
     setAnswered(true);
   };
 
   const handleNext = () => {
-    setIndex(index + 1);
+    setIndex(i => i + 1);
   };
 
   const handleFinish = () => {
@@ -77,22 +108,29 @@ const QuizScreen = ({ route, navigation }) => {
     });
   };
 
-  const progress = ((index + 1) / questions.length) * 100;
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {/* Heading */}
         <Text style={styles.heading}>
           📘 Question {index + 1} of {questions.length}
         </Text>
 
-        {/* Progress Bar */}
+        {/* Timer Display */}
+        <Text style={styles.timerText}>⏱️ {timer}s left</Text>
         <View style={styles.progressBackground}>
-          <View style={[styles.progressFill, { width: `${progress}%` }]} />
+          <View
+            style={[
+              styles.progressFill,
+              { width: `${(timer / TOTAL_TIME) * 100}%` },
+            ]}
+          />
         </View>
 
+        {/* Question */}
         <Text style={styles.question}>{questions[index].question}</Text>
 
+        {/* Options */}
         {shuffledOptions.map((opt, i) => (
           <OptionButton
             key={i}
@@ -104,13 +142,13 @@ const QuizScreen = ({ route, navigation }) => {
           />
         ))}
 
+        {/* Action Buttons */}
         <View style={styles.buttonGroup}>
           <Button
             title="Check Answer"
             onPress={handleCheck}
             disabled={selected === null || answered}
           />
-
           {index < questions.length - 1 ? (
             <Button title="Next" onPress={handleNext} />
           ) : (
@@ -136,21 +174,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginTop: 40,
-    marginBottom: 10,
+    marginBottom: 5,
     color: "#444",
     textAlign: "center",
   },
+  timerText: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 5,
+    color: "#e74c3c",
+  },
   progressBackground: {
-    height: 8,
-    backgroundColor: "#e0e0e0",
-    borderRadius: 4,
+    height: 6,
+    backgroundColor: "#ecf0f1",
+    borderRadius: 3,
     overflow: "hidden",
-    marginBottom: 20,
+    marginBottom: 15,
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#4caf50",
-    borderRadius: 4,
+    backgroundColor: "#e74c3c",
   },
   question: {
     fontSize: 20,
