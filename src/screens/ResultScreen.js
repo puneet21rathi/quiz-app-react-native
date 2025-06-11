@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -6,34 +6,55 @@ import {
   StyleSheet,
   Platform,
   SafeAreaView,
+  Animated,
 } from "react-native";
 
 const ResultScreen = ({ route, navigation }) => {
   const { score, total, quizId } = route.params;
 
-  // 🎯 Message based on score
+  // Animation for 🎉
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      friction: 4,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   const getMessage = () => {
     const percentage = (score / total) * 100;
-
     if (percentage === 100) return "🏆 Perfect Score! You’re a genius!";
     if (percentage >= 80) return "🎉 Great job! You really know your stuff.";
     if (percentage >= 50) return "👍 Good effort! Keep practicing.";
     return "😅 Don’t worry! Try again and you’ll get better!";
   };
 
-  // 🎨 Message color based on score
   const getMessageColor = () => {
     const percentage = (score / total) * 100;
-
-    if (percentage === 100) return "#28a745"; // Green
-    if (percentage >= 80) return "#17a2b8";   // Blue
-    if (percentage >= 50) return "#ffc107";   // Orange
-    return "#dc3545";                         // Red
+    if (percentage === 100) return "#28a745";
+    if (percentage >= 80) return "#17a2b8";
+    if (percentage >= 50) return "#ffc107";
+    return "#dc3545";
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.card}>
+        {/* 🎉 Animated Emoji */}
+        <Animated.Text
+          style={[
+            styles.emoji,
+            {
+              transform: [{ scale: scaleAnim }],
+              opacity: scaleAnim,
+            },
+          ]}
+        >
+          🎉
+        </Animated.Text>
+
         <Text style={styles.title}>🎯 Quiz Completed!</Text>
 
         <Text style={styles.scoreText}>
@@ -80,6 +101,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     width: "85%",
     alignItems: "center",
+  },
+  emoji: {
+    fontSize: 48,
+    marginBottom: 10,
   },
   title: {
     fontSize: 24,
