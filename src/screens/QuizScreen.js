@@ -38,40 +38,38 @@ const QuizScreen = ({ route, navigation }) => {
   const [shuffledOptions, setShuffledOptions] = useState([]);
   const [correctOptionIndex, setCorrectOptionIndex] = useState(null);
 
-  // TIMER STATES
-  const TOTAL_TIME = 15;               // seconds per question
+  const TOTAL_TIME = 15;
   const [timer, setTimer] = useState(TOTAL_TIME);
   const timerRef = useRef(null);
 
-  // Shuffle options and reset for each new question:
+  // Shuffle & set up options
   useEffect(() => {
     const current = questions[index];
     const orig = [...current.options];
-    const shuffle = [...orig];
-    for (let i = shuffle.length - 1; i > 0; i--) {
+    const shuffled = [...orig];
+    for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffle[i], shuffle[j]] = [shuffle[j], shuffle[i]];
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
+
     const correctText = orig[current.correct];
-    setShuffledOptions(shuffle);
-    setCorrectOptionIndex(shuffle.indexOf(correctText));
+    const newCorrectIndex = shuffled.indexOf(correctText);
+
+    setShuffledOptions(shuffled);
+    setCorrectOptionIndex(newCorrectIndex);
     setSelected(null);
     setAnswered(false);
-    // RESET TIMER:
     setTimer(TOTAL_TIME);
   }, [index]);
 
-  // Countdown effect:
+  // Timer Countdown
   useEffect(() => {
-    // Clear any existing interval
     if (timerRef.current) clearInterval(timerRef.current);
 
-    // Start new one
     timerRef.current = setInterval(() => {
       setTimer(prev => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
-          // Auto-advance or finish
           if (index < questions.length - 1) {
             setIndex(i => i + 1);
           } else {
@@ -81,13 +79,12 @@ const QuizScreen = ({ route, navigation }) => {
               quizId,
             });
           }
-          return TOTAL_TIME; // reset for next usage
+          return TOTAL_TIME;
         }
         return prev - 1;
       });
     }, 1000);
 
-    // Cleanup on unmount
     return () => clearInterval(timerRef.current);
   }, [index]);
 
@@ -96,9 +93,7 @@ const QuizScreen = ({ route, navigation }) => {
     setAnswered(true);
   };
 
-  const handleNext = () => {
-    setIndex(i => i + 1);
-  };
+  const handleNext = () => setIndex(i => i + 1);
 
   const handleFinish = () => {
     navigation.replace("ResultScreen", {
@@ -111,12 +106,18 @@ const QuizScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Heading */}
+
+        {/* 🔙 Back Button */}
+        <View style={styles.backButtonContainer}>
+          <Text style={styles.backButton} onPress={() => navigation.replace("HomeScreen")}>
+            ← Back to Quiz List
+          </Text>
+        </View>
+
         <Text style={styles.heading}>
           📘 Question {index + 1} of {questions.length}
         </Text>
 
-        {/* Timer Display */}
         <Text style={styles.timerText}>⏱️ {timer}s left</Text>
         <View style={styles.progressBackground}>
           <View
@@ -127,10 +128,8 @@ const QuizScreen = ({ route, navigation }) => {
           />
         </View>
 
-        {/* Question */}
         <Text style={styles.question}>{questions[index].question}</Text>
 
-        {/* Options */}
         {shuffledOptions.map((opt, i) => (
           <OptionButton
             key={i}
@@ -142,7 +141,6 @@ const QuizScreen = ({ route, navigation }) => {
           />
         ))}
 
-        {/* Action Buttons */}
         <View style={styles.buttonGroup}>
           <Button
             title="Check Answer"
@@ -170,10 +168,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 30,
   },
+  backButtonContainer: {
+    alignItems: "flex-start",
+    marginBottom: 10,
+  },
+  backButton: {
+    fontSize: 16,
+    color: "#007bff",
+    fontWeight: "500",
+  },
   heading: {
     fontSize: 18,
     fontWeight: "bold",
-    marginTop: 40,
+    marginTop: 10,
     marginBottom: 5,
     color: "#444",
     textAlign: "center",
