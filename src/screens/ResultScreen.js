@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -6,33 +6,28 @@ import {
   StyleSheet,
   Platform,
   SafeAreaView,
-  Animated,
 } from "react-native";
 
 const ResultScreen = ({ route, navigation }) => {
   const { score, total, quizId } = route.params;
 
-  // Animation for 🎉
-  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const percentage = Math.round((score / total) * 100);
 
-  useEffect(() => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      friction: 4,
-      useNativeDriver: true,
-    }).start();
-  }, []);
+  const getEmoji = () => {
+    if (percentage === 100) return "🏆";
+    if (percentage >= 80) return "🥳";
+    if (percentage >= 50) return "😎";
+    return "🤔";
+  };
 
   const getMessage = () => {
-    const percentage = (score / total) * 100;
-    if (percentage === 100) return "🏆 Perfect Score! You’re a genius!";
-    if (percentage >= 80) return "🎉 Great job! You really know your stuff.";
-    if (percentage >= 50) return "👍 Good effort! Keep practicing.";
-    return "😅 Don’t worry! Try again and you’ll get better!";
+    if (percentage === 100) return "Perfect Score! You're a genius!";
+    if (percentage >= 80) return "Great job! You really know your stuff.";
+    if (percentage >= 50) return "Good effort! Keep practicing.";
+    return "Don’t worry! Try again and you'll get better!";
   };
 
   const getMessageColor = () => {
-    const percentage = (score / total) * 100;
     if (percentage === 100) return "#28a745";
     if (percentage >= 80) return "#17a2b8";
     if (percentage >= 50) return "#ffc107";
@@ -42,18 +37,18 @@ const ResultScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.card}>
-        {/* 🎉 Animated Emoji */}
-        <Animated.Text
-          style={[
-            styles.emoji,
-            {
-              transform: [{ scale: scaleAnim }],
-              opacity: scaleAnim,
-            },
-          ]}
-        >
-          🎉
-        </Animated.Text>
+        {/* 🎯 Score Ring */}
+        <View style={styles.ringContainer}>
+          <View
+            style={[
+              styles.outerRing,
+              { borderColor: getMessageColor() },
+            ]}
+          >
+            <Text style={styles.percentText}>{percentage}%</Text>
+            <Text style={styles.emoji}>{getEmoji()}</Text>
+          </View>
+        </View>
 
         <Text style={styles.title}>🎯 Quiz Completed!</Text>
 
@@ -102,14 +97,32 @@ const styles = StyleSheet.create({
     width: "85%",
     alignItems: "center",
   },
+  ringContainer: {
+    marginBottom: 20,
+  },
+  outerRing: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 6,
+    borderColor: "#28a745",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fefefe",
+  },
+  percentText: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#333",
+  },
   emoji: {
-    fontSize: 48,
-    marginBottom: 10,
+    fontSize: 32,
+    marginTop: 5,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 15,
+    marginBottom: 10,
     color: "#333",
   },
   scoreText: {
