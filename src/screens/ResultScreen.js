@@ -6,11 +6,12 @@ import {
   StyleSheet,
   Platform,
   SafeAreaView,
+  Share,
+  TouchableOpacity,
 } from "react-native";
 
 const ResultScreen = ({ route, navigation }) => {
   const { score, total, quizId } = route.params;
-
   const percentage = Math.round((score / total) * 100);
 
   const getEmoji = () => {
@@ -32,6 +33,19 @@ const ResultScreen = ({ route, navigation }) => {
     if (percentage >= 80) return "#17a2b8";
     if (percentage >= 50) return "#ffc107";
     return "#dc3545";
+  };
+
+  const handleShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `I scored ${score} out of ${total} in Brain Boost Quiz! 🎯 Can you beat my score? #QuizApp`,
+      });
+      if (result.action === Share.sharedAction) {
+        // shared
+      }
+    } catch (error) {
+      alert("Error sharing score.");
+    }
   };
 
   return (
@@ -75,6 +89,11 @@ const ResultScreen = ({ route, navigation }) => {
             onPress={() => navigation.replace("HomeScreen")}
           />
         </View>
+
+        {/* 📤 Share Button */}
+        <TouchableOpacity style={styles.shareButton} onPress={handleShare}>
+          <Text style={styles.shareButtonText}>📤 Share Your Score</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -142,6 +161,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: "100%",
+  },
+  shareButton: {
+    marginTop: 20,
+    backgroundColor: "#007bff",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+  },
+  shareButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
 
