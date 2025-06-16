@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -8,11 +8,23 @@ import {
   SafeAreaView,
   Share,
   TouchableOpacity,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 
 const ResultScreen = ({ route, navigation }) => {
   const { score, total, quizId } = route.params;
   const percentage = Math.round((score / total) * 100);
+
+  // 🎯 Show Toast on mount
+  useEffect(() => {
+    const message = "Quiz Completed Successfully 🎉";
+    if (Platform.OS === "android") {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+    } else {
+      Alert.alert("Success", message);
+    }
+  }, []);
 
   const getEmoji = () => {
     if (percentage === 100) return "🏆";
