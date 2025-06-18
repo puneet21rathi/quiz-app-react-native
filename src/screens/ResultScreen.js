@@ -13,10 +13,10 @@ import {
 } from "react-native";
 
 const ResultScreen = ({ route, navigation }) => {
-  const { score, total, quizId } = route.params;
+  const { score, total, quizId, quizTitle } = route.params;
   const percentage = Math.round((score / total) * 100);
 
-  // 🎯 Show Toast on mount
+  // ✅ Show toast/alert on load
   useEffect(() => {
     const message = "Quiz Completed Successfully 🎉";
     if (Platform.OS === "android") {
@@ -49,12 +49,9 @@ const ResultScreen = ({ route, navigation }) => {
 
   const handleShare = async () => {
     try {
-      const result = await Share.share({
-        message: `I scored ${score} out of ${total} in Brain Boost Quiz! 🎯 Can you beat my score? #QuizApp`,
+      await Share.share({
+        message: `I scored ${score} out of ${total} in ${quizTitle}! 🎯 Can you beat my score? #QuizApp`,
       });
-      if (result.action === Share.sharedAction) {
-        // shared
-      }
     } catch (error) {
       alert("Error sharing score.");
     }
@@ -63,6 +60,9 @@ const ResultScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.card}>
+        {/* ✅ Quiz Title */}
+        <Text style={styles.quizName}>✅ {quizTitle} Completed</Text>
+
         {/* 🎯 Score Ring */}
         <View style={styles.ringContainer}>
           <View
@@ -92,6 +92,7 @@ const ResultScreen = ({ route, navigation }) => {
             onPress={() =>
               navigation.replace("QuizScreen", {
                 quizId,
+                quizTitle,
               })
             }
           />
@@ -128,6 +129,13 @@ const styles = StyleSheet.create({
     width: "85%",
     alignItems: "center",
   },
+  quizName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#007bff",
+    marginBottom: 8,
+    textAlign: "center",
+  },
   ringContainer: {
     marginBottom: 20,
   },
@@ -136,7 +144,6 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 60,
     borderWidth: 6,
-    borderColor: "#28a745",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fefefe",

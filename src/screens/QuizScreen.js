@@ -74,10 +74,11 @@ const QuizScreen = ({ route, navigation }) => {
             setIndex(i => i + 1);
           } else {
             navigation.replace("ResultScreen", {
-              score,
-              total: questions.length,
-              quizId,
-            });
+                score,
+                total: questions.length,
+                quizId,
+                quizTitle,
+              });
           }
           return TOTAL_TIME;
         }

@@ -36,7 +36,7 @@ const HomeScreen = ({ navigation }) => {
           <QuizCard
             title={item.title}
             onPress={() =>
-              navigation.replace("QuizScreen", { quizId: item.id })
+              navigation.replace("QuizScreen", { quizId: item.id, quizTitle: item.title })
             }
           />
         )}
