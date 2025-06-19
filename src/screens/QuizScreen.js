@@ -12,23 +12,73 @@ import OptionButton from "../components/OptionButton";
 
 const quizzes = {
   "1": [
-    { question: "What is H2O?", options: ["Oxygen", "Water", "Hydrogen", "Carbon"], correct: 1 },
-    { question: "What is the sun?", options: ["Planet", "Star", "Asteroid", "Comet"], correct: 1 },
-    { question: "Which gas do plants absorb?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"], correct: 1 },
-    { question: "Earth's largest ocean?", options: ["Atlantic", "Pacific", "Indian", "Arctic"], correct: 1 },
-    { question: "Which organ pumps blood?", options: ["Liver", "Heart", "Brain", "Lungs"], correct: 1 },
+    {
+      question: "What is H2O?",
+      options: ["Oxygen", "Water", "Hydrogen", "Carbon"],
+      correct: 1,
+      difficulty: "Easy",
+    },
+    {
+      question: "What is the sun?",
+      options: ["Planet", "Star", "Asteroid", "Comet"],
+      correct: 1,
+      difficulty: "Medium",
+    },
+    {
+      question: "Which gas do plants absorb?",
+      options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+      correct: 1,
+      difficulty: "Easy",
+    },
+    {
+      question: "Earth's largest ocean?",
+      options: ["Atlantic", "Pacific", "Indian", "Arctic"],
+      correct: 1,
+      difficulty: "Medium",
+    },
+    {
+      question: "Which organ pumps blood?",
+      options: ["Liver", "Heart", "Brain", "Lungs"],
+      correct: 1,
+      difficulty: "Easy",
+    },
   ],
   "2": [
-    { question: "2 + 2 =", options: ["3", "4", "5", "6"], correct: 1 },
-    { question: "5 x 3 =", options: ["10", "15", "20", "25"], correct: 1 },
-    { question: "Square root of 16?", options: ["2", "4", "8", "16"], correct: 1 },
-    { question: "10 / 2 =", options: ["2", "5", "8", "10"], correct: 1 },
-    { question: "20 - 5 =", options: ["10", "15", "20", "25"], correct: 1 },
+    {
+      question: "2 + 2 =",
+      options: ["3", "4", "5", "6"],
+      correct: 1,
+      difficulty: "Easy",
+    },
+    {
+      question: "5 x 3 =",
+      options: ["10", "15", "20", "25"],
+      correct: 1,
+      difficulty: "Medium",
+    },
+    {
+      question: "Square root of 16?",
+      options: ["2", "4", "8", "16"],
+      correct: 1,
+      difficulty: "Medium",
+    },
+    {
+      question: "10 / 2 =",
+      options: ["2", "5", "8", "10"],
+      correct: 1,
+      difficulty: "Easy",
+    },
+    {
+      question: "20 - 5 =",
+      options: ["10", "15", "20", "25"],
+      correct: 1,
+      difficulty: "Easy",
+    },
   ],
 };
 
 const QuizScreen = ({ route, navigation }) => {
-  const { quizId } = route.params;
+  const { quizId, quizTitle } = route.params;
   const questions = quizzes[quizId];
 
   const [index, setIndex] = useState(0);
@@ -42,43 +92,40 @@ const QuizScreen = ({ route, navigation }) => {
   const [timer, setTimer] = useState(TOTAL_TIME);
   const timerRef = useRef(null);
 
-  // Shuffle & set up options
   useEffect(() => {
     const current = questions[index];
-    const orig = [...current.options];
-    const shuffled = [...orig];
-    for (let i = shuffled.length - 1; i > 0; i--) {
+    const options = [...current.options];
+    for (let i = options.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      [options[i], options[j]] = [options[j], options[i]];
     }
 
-    const correctText = orig[current.correct];
-    const newCorrectIndex = shuffled.indexOf(correctText);
+    const correctAnswerText = current.options[current.correct];
+    const newCorrectIndex = options.indexOf(correctAnswerText);
 
-    setShuffledOptions(shuffled);
+    setShuffledOptions(options);
     setCorrectOptionIndex(newCorrectIndex);
     setSelected(null);
     setAnswered(false);
     setTimer(TOTAL_TIME);
   }, [index]);
 
-  // Timer Countdown
   useEffect(() => {
     if (timerRef.current) clearInterval(timerRef.current);
 
     timerRef.current = setInterval(() => {
-      setTimer(prev => {
+      setTimer((prev) => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
           if (index < questions.length - 1) {
-            setIndex(i => i + 1);
+            setIndex((i) => i + 1);
           } else {
             navigation.replace("ResultScreen", {
-                score,
-                total: questions.length,
-                quizId,
-                quizTitle,
-              });
+              score,
+              total: questions.length,
+              quizId,
+              quizTitle,
+            });
           }
           return TOTAL_TIME;
         }
@@ -90,35 +137,50 @@ const QuizScreen = ({ route, navigation }) => {
   }, [index]);
 
   const handleCheck = () => {
-    if (selected === correctOptionIndex) setScore(s => s + 1);
+    if (selected === correctOptionIndex) setScore((s) => s + 1);
     setAnswered(true);
   };
 
-  const handleNext = () => setIndex(i => i + 1);
+  const handleNext = () => setIndex((i) => i + 1);
 
   const handleFinish = () => {
     navigation.replace("ResultScreen", {
       score,
       total: questions.length,
       quizId,
+      quizTitle,
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {/* 🧠 Quiz Title */}
+        <Text style={styles.quizTitle}>🧠 {quizTitle}</Text>
 
-        {/* 🔙 Back Button */}
-        <View style={styles.backButtonContainer}>
-          <Text style={styles.backButton} onPress={() => navigation.replace("HomeScreen")}>
-            ← Back to Quiz List
-          </Text>
-        </View>
-
+        {/* 📘 Progress */}
         <Text style={styles.heading}>
           📘 Question {index + 1} of {questions.length}
         </Text>
 
+        {/* 🏷️ Difficulty */}
+        <Text
+          style={[
+            styles.difficulty,
+            {
+              color:
+                questions[index].difficulty === "Easy"
+                  ? "#28a745"
+                  : questions[index].difficulty === "Medium"
+                  ? "#ffc107"
+                  : "#dc3545",
+            },
+          ]}
+        >
+          🏷️ Difficulty: {questions[index].difficulty}
+        </Text>
+
+        {/* ⏱️ Timer */}
         <Text style={styles.timerText}>⏱️ {timer}s left</Text>
         <View style={styles.progressBackground}>
           <View
@@ -129,19 +191,24 @@ const QuizScreen = ({ route, navigation }) => {
           />
         </View>
 
+        {/* ❓ Question */}
         <Text style={styles.question}>{questions[index].question}</Text>
 
+        {/* 🟢 Options */}
         {shuffledOptions.map((opt, i) => (
           <OptionButton
             key={i}
             option={opt}
             isSelected={selected === i}
             isCorrect={answered && i === correctOptionIndex}
-            isWrong={answered && selected === i && selected !== correctOptionIndex}
+            isWrong={
+              answered && selected === i && selected !== correctOptionIndex
+            }
             onPress={() => setSelected(i)}
           />
         ))}
 
+        {/* Buttons */}
         <View style={styles.buttonGroup}>
           <Button
             title="Check Answer"
@@ -169,21 +236,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 30,
   },
-  backButtonContainer: {
-    alignItems: "flex-start",
-    marginBottom: 10,
-  },
-  backButton: {
-    fontSize: 16,
+  quizTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
     color: "#007bff",
-    fontWeight: "500",
+    marginBottom: 5,
   },
   heading: {
     fontSize: 18,
     fontWeight: "bold",
-    marginTop: 10,
+    textAlign: "center",
     marginBottom: 5,
     color: "#444",
+  },
+  difficulty: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
     textAlign: "center",
   },
   timerText: {
