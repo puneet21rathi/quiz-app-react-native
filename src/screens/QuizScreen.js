@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Platform,
   View,
+  BackHandler,
+  Alert,
 } from "react-native";
 import OptionButton from "../components/OptionButton";
 
@@ -92,6 +94,32 @@ const QuizScreen = ({ route, navigation }) => {
   const [timer, setTimer] = useState(TOTAL_TIME);
   const timerRef = useRef(null);
 
+  // 🆕 Exit confirmation alert on back press
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert(
+        "Hold on!",
+        "Are you sure you want to exit the quiz?",
+        [
+          { text: "No", onPress: () => null, style: "cancel" },
+          {
+            text: "Yes",
+            onPress: () => navigation.replace("HomeScreen"),
+          },
+        ]
+      );
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  // Shuffle and reset
   useEffect(() => {
     const current = questions[index];
     const options = [...current.options];
@@ -110,6 +138,7 @@ const QuizScreen = ({ route, navigation }) => {
     setTimer(TOTAL_TIME);
   }, [index]);
 
+  // Timer logic
   useEffect(() => {
     if (timerRef.current) clearInterval(timerRef.current);
 
