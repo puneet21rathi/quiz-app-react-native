@@ -1,19 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SplashScreen = ({ navigation }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.replace("HomeScreen");
-    }, 2000); // 2 seconds delay
+  const [loading, setLoading] = useState(true);
 
-    return () => clearTimeout(timer);
+  useEffect(() => {
+    const checkFirstLaunch = async () => {
+      const hasLaunched = await AsyncStorage.getItem("hasLaunched");
+
+      setTimeout(() => {
+        if (hasLaunched === null) {
+          AsyncStorage.setItem("hasLaunched", "true");
+          navigation.replace("OnboardingScreen");
+        } else {
+          navigation.replace("HomeScreen");
+        }
+        setLoading(false);
+      }, 2000);
+    };
+
+    checkFirstLaunch();
   }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>🎯 Quiz Game</Text>
-      <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 20 }} />
+      {loading && <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 20 }} />}
     </View>
   );
 };
