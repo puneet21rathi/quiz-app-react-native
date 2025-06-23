@@ -13,8 +13,14 @@ import {
 } from "react-native";
 
 const ResultScreen = ({ route, navigation }) => {
-  const { score, total, quizId, quizTitle } = route.params;
+  const { score, total, quizId, quizTitle, startTime, endTime } = route.params;
+
   const percentage = Math.round((score / total) * 100);
+  const accuracy = ((score / total) * 100).toFixed(2);
+
+  const totalTimeSec = Math.floor((endTime - startTime) / 1000);
+  const minutes = Math.floor(totalTimeSec / 60);
+  const seconds = totalTimeSec % 60;
 
   // ✅ Show toast/alert on load
   useEffect(() => {
@@ -81,6 +87,10 @@ const ResultScreen = ({ route, navigation }) => {
         <Text style={styles.scoreText}>
           You scored: <Text style={styles.scoreHighlight}>{score}</Text> / {total}
         </Text>
+
+        {/* 🆕 Time & Accuracy */}
+        <Text style={styles.statText}>⏱️ Time Taken: {minutes}m {seconds}s</Text>
+        <Text style={styles.statText}>📊 Accuracy: {accuracy}%</Text>
 
         <Text style={[styles.message, { color: getMessageColor() }]}>
           {getMessage()}
@@ -171,6 +181,11 @@ const styles = StyleSheet.create({
   scoreHighlight: {
     fontWeight: "bold",
     color: "#007bff",
+  },
+  statText: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: "#333",
   },
   message: {
     fontSize: 18,

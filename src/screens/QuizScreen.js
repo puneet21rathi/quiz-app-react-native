@@ -90,11 +90,13 @@ const QuizScreen = ({ route, navigation }) => {
   const [shuffledOptions, setShuffledOptions] = useState([]);
   const [correctOptionIndex, setCorrectOptionIndex] = useState(null);
 
+  const [startTime, setStartTime] = useState(null); // ⭐
+
   const TOTAL_TIME = 15;
   const [timer, setTimer] = useState(TOTAL_TIME);
   const timerRef = useRef(null);
 
-  // 🆕 Exit confirmation alert on back press
+  // ⭐ Back handler to confirm before quitting
   useEffect(() => {
     const backAction = () => {
       Alert.alert(
@@ -119,7 +121,12 @@ const QuizScreen = ({ route, navigation }) => {
     return () => backHandler.remove();
   }, []);
 
-  // Shuffle and reset
+  // ⭐ Set start time only once
+  useEffect(() => {
+    setStartTime(Date.now());
+  }, []);
+
+  // Shuffle options + timer reset
   useEffect(() => {
     const current = questions[index];
     const options = [...current.options];
@@ -149,11 +156,14 @@ const QuizScreen = ({ route, navigation }) => {
           if (index < questions.length - 1) {
             setIndex((i) => i + 1);
           } else {
+            const endTime = Date.now(); // ⭐
             navigation.replace("ResultScreen", {
               score,
               total: questions.length,
               quizId,
               quizTitle,
+              startTime,
+              endTime,
             });
           }
           return TOTAL_TIME;
@@ -170,74 +180,53 @@ const QuizScreen = ({ route, navigation }) => {
     setAnswered(true);
   };
 
-  const handleNext = () => setIndex((i) => i + 1);
-
   const handleFinish = () => {
+    const endTime = Date.now(); // ⭐
     navigation.replace("ResultScreen", {
       score,
       total: questions.length,
       quizId,
       quizTitle,
+      startTime,
+      endTime,
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* 🧠 Quiz Title */}
         <Text style={styles.quizTitle}>🧠 {quizTitle}</Text>
-
-        {/* 📘 Progress */}
         <Text style={styles.heading}>
           📘 Question {index + 1} of {questions.length}
         </Text>
-
-        {/* 🏷️ Difficulty */}
-        <Text
-          style={[
-            styles.difficulty,
-            {
-              color:
-                questions[index].difficulty === "Easy"
-                  ? "#28a745"
-                  : questions[index].difficulty === "Medium"
-                  ? "#ffc107"
-                  : "#dc3545",
-            },
-          ]}
-        >
+        <Text style={[styles.difficulty, {
+          color:
+            questions[index].difficulty === "Easy"
+              ? "#28a745"
+              : questions[index].difficulty === "Medium"
+              ? "#ffc107"
+              : "#dc3545"
+        }]}>
           🏷️ Difficulty: {questions[index].difficulty}
         </Text>
-
-        {/* ⏱️ Timer */}
         <Text style={styles.timerText}>⏱️ {timer}s left</Text>
         <View style={styles.progressBackground}>
-          <View
-            style={[
-              styles.progressFill,
-              { width: `${(timer / TOTAL_TIME) * 100}%` },
-            ]}
-          />
+          <View style={[
+            styles.progressFill,
+            { width: `${(timer / TOTAL_TIME) * 100}%` },
+          ]} />
         </View>
-
-        {/* ❓ Question */}
         <Text style={styles.question}>{questions[index].question}</Text>
-
-        {/* 🟢 Options */}
         {shuffledOptions.map((opt, i) => (
           <OptionButton
             key={i}
             option={opt}
             isSelected={selected === i}
             isCorrect={answered && i === correctOptionIndex}
-            isWrong={
-              answered && selected === i && selected !== correctOptionIndex
-            }
+            isWrong={answered && selected === i && selected !== correctOptionIndex}
             onPress={() => setSelected(i)}
           />
         ))}
-
-        {/* Buttons */}
         <View style={styles.buttonGroup}>
           <Button
             title="Check Answer"
@@ -245,7 +234,7 @@ const QuizScreen = ({ route, navigation }) => {
             disabled={selected === null || answered}
           />
           {index < questions.length - 1 ? (
-            <Button title="Next" onPress={handleNext} />
+            <Button title="Next" onPress={() => setIndex((i) => i + 1)} />
           ) : (
             <Button title="Finish" onPress={handleFinish} />
           )}
@@ -256,63 +245,16 @@ const QuizScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingTop: Platform.OS === "android" ? 30 : 0,
-  },
-  scrollContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-  },
-  quizTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#007bff",
-    marginBottom: 5,
-  },
-  heading: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 5,
-    color: "#444",
-  },
-  difficulty: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
-    textAlign: "center",
-  },
-  timerText: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 5,
-    color: "#e74c3c",
-  },
-  progressBackground: {
-    height: 6,
-    backgroundColor: "#ecf0f1",
-    borderRadius: 3,
-    overflow: "hidden",
-    marginBottom: 15,
-  },
-  progressFill: {
-    height: "100%",
-    backgroundColor: "#e74c3c",
-  },
-  question: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 15,
-    textAlign: "center",
-    color: "#222",
-  },
-  buttonGroup: {
-    marginTop: 20,
-    gap: 10,
-  },
+  container: { flex: 1, backgroundColor: "#fff", paddingTop: Platform.OS === "android" ? 30 : 0 },
+  scrollContainer: { paddingHorizontal: 20, paddingBottom: 30 },
+  quizTitle: { fontSize: 22, fontWeight: "bold", textAlign: "center", color: "#007bff", marginBottom: 5 },
+  heading: { fontSize: 18, fontWeight: "bold", textAlign: "center", marginBottom: 5, color: "#444" },
+  difficulty: { fontSize: 16, fontWeight: "bold", marginBottom: 5, textAlign: "center" },
+  timerText: { fontSize: 16, textAlign: "center", marginBottom: 5, color: "#e74c3c" },
+  progressBackground: { height: 6, backgroundColor: "#ecf0f1", borderRadius: 3, overflow: "hidden", marginBottom: 15 },
+  progressFill: { height: "100%", backgroundColor: "#e74c3c" },
+  question: { fontSize: 20, fontWeight: "bold", marginBottom: 15, textAlign: "center", color: "#222" },
+  buttonGroup: { marginTop: 20, gap: 10 },
 });
 
 export default QuizScreen;
