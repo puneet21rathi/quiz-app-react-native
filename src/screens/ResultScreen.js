@@ -22,7 +22,6 @@ const ResultScreen = ({ route, navigation }) => {
   const minutes = Math.floor(totalTimeSec / 60);
   const seconds = totalTimeSec % 60;
 
-  // ✅ Show toast/alert on load
   useEffect(() => {
     const message = "Quiz Completed Successfully 🎉";
     if (Platform.OS === "android") {
@@ -63,13 +62,29 @@ const ResultScreen = ({ route, navigation }) => {
     }
   };
 
+  const handleRestart = () => {
+    Alert.alert(
+      "Restart Quiz",
+      "Are you sure you want to restart this quiz?",
+      [
+        { text: "No", style: "cancel" },
+        {
+          text: "Yes",
+          onPress: () =>
+            navigation.replace("QuizScreen", {
+              quizId,
+              quizTitle,
+            }),
+        },
+      ]
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.card}>
-        {/* ✅ Quiz Title */}
         <Text style={styles.quizName}>✅ {quizTitle} Completed</Text>
 
-        {/* 🎯 Score Ring */}
         <View style={styles.ringContainer}>
           <View
             style={[
@@ -88,7 +103,6 @@ const ResultScreen = ({ route, navigation }) => {
           You scored: <Text style={styles.scoreHighlight}>{score}</Text> / {total}
         </Text>
 
-        {/* 🆕 Time & Accuracy */}
         <Text style={styles.statText}>⏱️ Time Taken: {minutes}m {seconds}s</Text>
         <Text style={styles.statText}>📊 Accuracy: {accuracy}%</Text>
 
@@ -97,15 +111,7 @@ const ResultScreen = ({ route, navigation }) => {
         </Text>
 
         <View style={styles.buttonContainer}>
-          <Button
-            title="🔁 Restart Quiz"
-            onPress={() =>
-              navigation.replace("QuizScreen", {
-                quizId,
-                quizTitle,
-              })
-            }
-          />
+          <Button title="🔁 Restart Quiz" onPress={handleRestart} />
           <View style={{ marginTop: 10 }} />
           <Button
             title="🏠 Go to Home"
@@ -113,7 +119,6 @@ const ResultScreen = ({ route, navigation }) => {
           />
         </View>
 
-        {/* 📤 Share Button */}
         <TouchableOpacity style={styles.shareButton} onPress={handleShare}>
           <Text style={styles.shareButtonText}>📤 Share Your Score</Text>
         </TouchableOpacity>
