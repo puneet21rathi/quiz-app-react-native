@@ -31,6 +31,13 @@ const ResultScreen = ({ route, navigation }) => {
     }
   }, []);
 
+  const getBadge = () => {
+    if (percentage === 100) return { emoji: "🥇", label: "Gold", color: "#FFD700" };
+    if (percentage >= 80) return { emoji: "🥈", label: "Silver", color: "#C0C0C0" };
+    if (percentage >= 50) return { emoji: "🥉", label: "Bronze", color: "#cd7f32" };
+    return { emoji: "🚫", label: "Try Again", color: "#dc3545" };
+  };
+
   const getEmoji = () => {
     if (percentage === 100) return "🏆";
     if (percentage >= 80) return "🥳";
@@ -53,9 +60,10 @@ const ResultScreen = ({ route, navigation }) => {
   };
 
   const handleShare = async () => {
+    const badge = getBadge();
     try {
       await Share.share({
-        message: `I scored ${score} out of ${total} in ${quizTitle}! 🎯 Can you beat my score? #QuizApp`,
+        message: `I scored ${score} / ${total} in ${quizTitle}! 🧠\nBadge: ${badge.emoji} ${badge.label}\n#QuizApp`,
       });
     } catch (error) {
       alert("Error sharing score.");
@@ -79,6 +87,8 @@ const ResultScreen = ({ route, navigation }) => {
       ]
     );
   };
+
+  const badge = getBadge();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -106,6 +116,13 @@ const ResultScreen = ({ route, navigation }) => {
         <Text style={styles.statText}>⏱️ Time Taken: {minutes}m {seconds}s</Text>
         <Text style={styles.statText}>📊 Accuracy: {accuracy}%</Text>
 
+        {/* 🏅 Completion Badge */}
+        <View style={[styles.badgeBox, { borderColor: badge.color }]}>
+          <Text style={[styles.badgeText, { color: badge.color }]}>
+            {badge.emoji} {badge.label} Badge
+          </Text>
+        </View>
+
         <Text style={[styles.message, { color: getMessageColor() }]}>
           {getMessage()}
         </Text>
@@ -113,10 +130,7 @@ const ResultScreen = ({ route, navigation }) => {
         <View style={styles.buttonContainer}>
           <Button title="🔁 Restart Quiz" onPress={handleRestart} />
           <View style={{ marginTop: 10 }} />
-          <Button
-            title="🏠 Go to Home"
-            onPress={() => navigation.replace("HomeScreen")}
-          />
+          <Button title="🏠 Go to Home" onPress={() => navigation.replace("HomeScreen")} />
         </View>
 
         <TouchableOpacity style={styles.shareButton} onPress={handleShare}>
@@ -191,6 +205,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
     color: "#333",
+  },
+  badgeBox: {
+    borderWidth: 2,
+    borderRadius: 6,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginVertical: 12,
+  },
+  badgeText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   message: {
     fontSize: 18,
