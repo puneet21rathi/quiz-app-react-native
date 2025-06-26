@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
+  Button,
 } from "react-native";
 import QuizCard from "../components/QuizCard";
 
@@ -20,6 +21,13 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* 🔙 Back to Categories Button */}
+      <Button
+        title="🔙 Back to Categories"
+        onPress={() => navigation.replace("CategoryScreen")}
+        color="#007bff"
+      />
+
       <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
 
       {/* ℹ️ Instructions Button */}
@@ -36,7 +44,10 @@ const HomeScreen = ({ navigation }) => {
           <QuizCard
             title={item.title}
             onPress={() =>
-              navigation.replace("QuizScreen", { quizId: item.id, quizTitle: item.title })
+              navigation.replace("QuizScreen", {
+                quizId: item.id,
+                quizTitle: item.title,
+              })
             }
           />
         )}
