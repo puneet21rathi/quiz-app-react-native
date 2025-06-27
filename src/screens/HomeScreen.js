@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* 🔙 Back to Categories Button */}
+      {/* 🔙 Back Button */}
       <Button
         title="🔙 Back to Categories"
         onPress={() => navigation.replace("CategoryScreen")}
@@ -30,10 +30,27 @@ const HomeScreen = ({ navigation }) => {
 
       <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
 
-      {/* ℹ️ Instructions Button */}
+      {/* 📝 Instructions Button */}
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Text style={styles.infoButton}>ℹ️ Instructions</Text>
       </TouchableOpacity>
+
+      {/* 🎯 Quiz of the Day */}
+      <View style={styles.banner}>
+        <Text style={styles.bannerTitle}>🎯 Quiz of the Day</Text>
+        <Text style={styles.bannerSubtitle}>Don't miss today's challenge!</Text>
+        <TouchableOpacity
+          style={styles.startButton}
+          onPress={() =>
+            navigation.replace("QuizScreen", {
+              quizId: "2",
+              quizTitle: "Maths Quiz",
+            })
+          }
+        >
+          <Text style={styles.startButtonText}>▶️ Start Now</Text>
+        </TouchableOpacity>
+      </View>
 
       <Text style={styles.sectionTitle}>Select a Quiz</Text>
 
@@ -53,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
         )}
       />
 
-      {/* 📌 Modal */}
+      {/* 📌 Instructions Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -107,6 +124,35 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
     color: "#333",
+  },
+  banner: {
+    backgroundColor: "#fcebd8",
+    padding: 16,
+    borderRadius: 10,
+    marginBottom: 20,
+    alignItems: "center",
+  },
+  bannerTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#d35400",
+  },
+  bannerSubtitle: {
+    fontSize: 14,
+    color: "#555",
+    marginVertical: 4,
+  },
+  startButton: {
+    backgroundColor: "#e67e22",
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 6,
+    marginTop: 8,
+  },
+  startButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
   modalOverlay: {
     flex: 1,
