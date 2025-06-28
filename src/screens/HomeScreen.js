@@ -30,10 +30,18 @@ const HomeScreen = ({ navigation }) => {
 
       <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
 
-      {/* 📝 Instructions Button */}
+      {/* ℹ️ Instructions */}
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Text style={styles.infoButton}>ℹ️ Instructions</Text>
       </TouchableOpacity>
+
+      {/* 🧠 Quote of the Day */}
+      <View style={styles.quoteBox}>
+        <Text style={styles.quoteIcon}>🧠</Text>
+        <Text style={styles.quoteText}>
+          "Learning never exhausts the mind — it only strengthens it."
+        </Text>
+      </View>
 
       {/* 🎯 Quiz of the Day */}
       <View style={styles.banner}>
@@ -70,7 +78,7 @@ const HomeScreen = ({ navigation }) => {
         )}
       />
 
-      {/* 📌 Instructions Modal */}
+      {/* 📌 Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -118,11 +126,21 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 15,
   },
-  sectionTitle: {
-    fontSize: 22,
-    fontWeight: "600",
-    textAlign: "center",
-    marginBottom: 10,
+  quoteBox: {
+    backgroundColor: "#e6f0ff",
+    borderLeftWidth: 4,
+    borderLeftColor: "#007bff",
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 15,
+  },
+  quoteIcon: {
+    fontSize: 24,
+    marginBottom: 4,
+  },
+  quoteText: {
+    fontSize: 16,
+    fontStyle: "italic",
     color: "#333",
   },
   banner: {
@@ -153,6 +171,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: "600",
+    textAlign: "center",
+    marginBottom: 10,
+    color: "#333",
   },
   modalOverlay: {
     flex: 1,
