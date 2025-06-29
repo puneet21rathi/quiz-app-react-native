@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* 🔙 Back Button */}
+      {/* 🔙 Back to Categories */}
       <Button
         title="🔙 Back to Categories"
         onPress={() => navigation.replace("CategoryScreen")}
@@ -40,6 +40,14 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.quoteIcon}>🧠</Text>
         <Text style={styles.quoteText}>
           "Learning never exhausts the mind — it only strengthens it."
+        </Text>
+      </View>
+
+      {/* 💡 Tip of the Day */}
+      <View style={styles.tipBox}>
+        <Text style={styles.tipTitle}>💡 Tip of the Day</Text>
+        <Text style={styles.tipText}>
+          Attempt quizzes regularly to build confidence and speed.
         </Text>
       </View>
 
@@ -78,7 +86,7 @@ const HomeScreen = ({ navigation }) => {
         )}
       />
 
-      {/* 📌 Modal */}
+      {/* 📌 Instructions Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -142,6 +150,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: "italic",
     color: "#333",
+  },
+  tipBox: {
+    backgroundColor: "#fff8e1",
+    borderLeftWidth: 4,
+    borderLeftColor: "#ffb300",
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 15,
+  },
+  tipTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 4,
+    color: "#e67e22",
+  },
+  tipText: {
+    fontSize: 15,
+    color: "#444",
   },
   banner: {
     backgroundColor: "#fcebd8",
