@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* 🔙 Back to Categories */}
+      {/* 🔙 Back Button */}
       <Button
         title="🔙 Back to Categories"
         onPress={() => navigation.replace("CategoryScreen")}
@@ -30,7 +30,7 @@ const HomeScreen = ({ navigation }) => {
 
       <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
 
-      {/* ℹ️ Instructions */}
+      {/* ℹ️ Instructions Button */}
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Text style={styles.infoButton}>ℹ️ Instructions</Text>
       </TouchableOpacity>
@@ -48,6 +48,14 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.tipTitle}>💡 Tip of the Day</Text>
         <Text style={styles.tipText}>
           Attempt quizzes regularly to build confidence and speed.
+        </Text>
+      </View>
+
+      {/* 🤓 Fun Fact of the Day */}
+      <View style={styles.factBox}>
+        <Text style={styles.factTitle}>🤓 Fun Fact</Text>
+        <Text style={styles.factText}>
+          Did you know? The Eiffel Tower can grow over 6 inches during hot days due to thermal expansion!
         </Text>
       </View>
 
@@ -86,7 +94,7 @@ const HomeScreen = ({ navigation }) => {
         )}
       />
 
-      {/* 📌 Instructions Modal */}
+      {/* 📌 Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -168,6 +176,24 @@ const styles = StyleSheet.create({
   tipText: {
     fontSize: 15,
     color: "#444",
+  },
+  factBox: {
+    backgroundColor: "#e3fcef",
+    borderLeftWidth: 4,
+    borderLeftColor: "#28a745",
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 15,
+  },
+  factTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 4,
+    color: "#28a745",
+  },
+  factText: {
+    fontSize: 15,
+    color: "#333",
   },
   banner: {
     backgroundColor: "#fcebd8",
