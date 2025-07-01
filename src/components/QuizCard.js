@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 
+// Icon logic based on title
 const getIcon = (title) => {
   if (title.toLowerCase().includes("science")) return "⚛️";
   if (title.toLowerCase().includes("math")) return "➗";
@@ -15,7 +16,10 @@ const QuizCard = ({ title, onPress }) => {
       <View style={styles.iconContainer}>
         <Text style={styles.icon}>{icon}</Text>
       </View>
-      <Text style={styles.cardTitle}>{title}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.cardTitle}>{title}</Text>
+        <Text style={styles.subtext}>⏳ ~2 mins</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -29,12 +33,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#fff",
-    marginLeft: 10,
-  },
   iconContainer: {
     backgroundColor: "#fff",
     borderRadius: 30,
@@ -45,6 +43,20 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 22,
+  },
+  textContainer: {
+    marginLeft: 12,
+    flex: 1,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  subtext: {
+    fontSize: 14,
+    color: "#e0e0e0",
+    marginTop: 4,
   },
 });
 
