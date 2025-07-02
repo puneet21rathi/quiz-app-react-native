@@ -21,7 +21,7 @@ A fun and interactive mobile quiz application built using React Native. Designed
 
 ## 🛠️ Technology Stack
 
-- React Native
+- React Native, Node.js
 - JavaScript / JSX
 - React Navigation (Stack)
 - AsyncStorage (for onboarding tracking)
