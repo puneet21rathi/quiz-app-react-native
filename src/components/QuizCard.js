@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 
 // Icon logic based on title
@@ -10,9 +10,16 @@ const getIcon = (title) => {
 
 const QuizCard = ({ title, onPress }) => {
   const icon = getIcon(title);
+  const [pressed, setPressed] = useState(false); // ⬅️ new state for feedback
 
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.card, pressed && styles.cardPressed]} // ⬅️ conditional style
+      onPress={onPress}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      activeOpacity={0.9}
+    >
       <View style={styles.iconContainer}>
         <Text style={styles.icon}>{icon}</Text>
       </View>
@@ -32,6 +39,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     flexDirection: "row",
+  },
+  cardPressed: {
+    backgroundColor: "#005bb5", // ⬅️ slightly darker when pressed
   },
   iconContainer: {
     backgroundColor: "#fff",
