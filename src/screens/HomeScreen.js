@@ -12,9 +12,10 @@ import {
 import QuizCard from "../components/QuizCard";
 
 const quizzes = [
-  { id: "1", title: "Science Quiz" },
-  { id: "2", title: "Maths Quiz" },
+  { id: "1", title: "Science Quiz", totalQuestions: 5 },
+  { id: "2", title: "Maths Quiz", totalQuestions: 5, isPopular: true },
 ];
+
 
 const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -79,20 +80,23 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.sectionTitle}>Select a Quiz</Text>
 
       <FlatList
-        data={quizzes}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <QuizCard
-            title={item.title}
-            onPress={() =>
-              navigation.replace("QuizScreen", {
-                quizId: item.id,
-                quizTitle: item.title,
-              })
-            }
-          />
-        )}
-      />
+  data={quizzes}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <QuizCard
+      title={item.title}
+      totalQuestions={item.totalQuestions}
+      isPopular={item.isPopular}
+      onPress={() =>
+        navigation.replace("QuizScreen", {
+          quizId: item.id,
+          quizTitle: item.title,
+        })
+      }
+    />
+  )}
+/>
+
 
       {/* 📌 Modal */}
       <Modal

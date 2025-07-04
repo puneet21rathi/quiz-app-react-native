@@ -8,13 +8,13 @@ const getIcon = (title) => {
   return "❓";
 };
 
-const QuizCard = ({ title, onPress }) => {
+const QuizCard = ({ title, onPress, isPopular }) => {
   const icon = getIcon(title);
-  const [pressed, setPressed] = useState(false); // ⬅️ new state for feedback
+  const [pressed, setPressed] = useState(false);
 
   return (
     <TouchableOpacity
-      style={[styles.card, pressed && styles.cardPressed]} // ⬅️ conditional style
+      style={[styles.card, pressed && styles.cardPressed]}
       onPress={onPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
@@ -24,7 +24,10 @@ const QuizCard = ({ title, onPress }) => {
         <Text style={styles.icon}>{icon}</Text>
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.cardTitle}>{title}</Text>
+        <View style={styles.row}>
+          <Text style={styles.cardTitle}>{title}</Text>
+          {isPopular && <Text style={styles.badge}>🔥 Popular</Text>}
+        </View>
         <Text style={styles.subtext}>⏳ ~2 mins</Text>
       </View>
     </TouchableOpacity>
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   cardPressed: {
-    backgroundColor: "#005bb5", // ⬅️ slightly darker when pressed
+    backgroundColor: "#005bb5",
   },
   iconContainer: {
     backgroundColor: "#fff",
@@ -58,10 +61,26 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     flex: 1,
   },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   cardTitle: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#fff",
+    flex: 1,
+  },
+  badge: {
+    backgroundColor: "#ffcc00",
+    color: "#000",
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+    fontSize: 12,
+    fontWeight: "bold",
+    marginLeft: 10,
   },
   subtext: {
     fontSize: 14,
