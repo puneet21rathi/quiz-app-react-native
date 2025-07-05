@@ -8,9 +8,16 @@ const getIcon = (title) => {
   return "❓";
 };
 
-const QuizCard = ({ title, onPress, isPopular }) => {
-  const icon = getIcon(title);
+const getDifficultyLabel = (difficulty) => {
+  if (difficulty === "easy") return { emoji: "🟢", color: "#28a745", label: "Easy" };
+  if (difficulty === "medium") return { emoji: "🟡", color: "#ffc107", label: "Medium" };
+  return { emoji: "🔴", color: "#dc3545", label: "Hard" };
+};
+
+const QuizCard = ({ title, onPress, isPopular, totalQuestions, difficulty }) => {
   const [pressed, setPressed] = useState(false);
+  const icon = getIcon(title);
+  const diff = getDifficultyLabel(difficulty);
 
   return (
     <TouchableOpacity
@@ -29,6 +36,10 @@ const QuizCard = ({ title, onPress, isPopular }) => {
           {isPopular && <Text style={styles.badge}>🔥 Popular</Text>}
         </View>
         <Text style={styles.subtext}>⏳ ~2 mins</Text>
+        <Text style={styles.subtext}>📋 {totalQuestions} Questions</Text>
+        <Text style={[styles.difficulty, { color: diff.color }]}>
+          {diff.emoji} {diff.label}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -85,6 +96,11 @@ const styles = StyleSheet.create({
   subtext: {
     fontSize: 14,
     color: "#e0e0e0",
+    marginTop: 2,
+  },
+  difficulty: {
+    fontSize: 14,
+    fontWeight: "600",
     marginTop: 4,
   },
 });

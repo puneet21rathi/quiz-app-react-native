@@ -12,8 +12,8 @@ import {
 import QuizCard from "../components/QuizCard";
 
 const quizzes = [
-  { id: "1", title: "Science Quiz", totalQuestions: 5 },
-  { id: "2", title: "Maths Quiz", totalQuestions: 5, isPopular: true },
+  { id: "1", title: "Science Quiz", totalQuestions: 5, isPopular: false, difficulty: "medium" },
+  { id: "2", title: "Maths Quiz", totalQuestions: 5, isPopular: true, difficulty: "hard" },
 ];
 
 
@@ -87,6 +87,7 @@ const HomeScreen = ({ navigation }) => {
       title={item.title}
       totalQuestions={item.totalQuestions}
       isPopular={item.isPopular}
+      difficulty={item.difficulty}
       onPress={() =>
         navigation.replace("QuizScreen", {
           quizId: item.id,
