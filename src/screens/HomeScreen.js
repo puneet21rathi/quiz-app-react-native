@@ -12,8 +12,22 @@ import {
 import QuizCard from "../components/QuizCard";
 
 const quizzes = [
-  { id: "1", title: "Science Quiz", totalQuestions: 5, isPopular: false, difficulty: "medium" },
-  { id: "2", title: "Maths Quiz", totalQuestions: 5, isPopular: true, difficulty: "hard" },
+  {
+    id: "1",
+    title: "Science Quiz",
+    totalQuestions: 5,
+    isPopular: false,
+    difficulty: "medium",
+    estimatedTime: 3,
+  },
+  {
+    id: "2",
+    title: "Maths Quiz",
+    totalQuestions: 5,
+    isPopular: true,
+    difficulty: "hard",
+    estimatedTime: 4,
+  },
 ];
 
 
@@ -88,6 +102,7 @@ const HomeScreen = ({ navigation }) => {
       totalQuestions={item.totalQuestions}
       isPopular={item.isPopular}
       difficulty={item.difficulty}
+      estimatedTime={item.estimatedTime}
       onPress={() =>
         navigation.replace("QuizScreen", {
           quizId: item.id,
@@ -97,6 +112,7 @@ const HomeScreen = ({ navigation }) => {
     />
   )}
 />
+
 
 
       {/* 📌 Modal */}
