@@ -19,6 +19,7 @@ const quizzes = [
     isPopular: false,
     difficulty: "medium",
     estimatedTime: 3,
+    new: false,
   },
   {
     id: "2",
@@ -27,8 +28,10 @@ const quizzes = [
     isPopular: true,
     difficulty: "hard",
     estimatedTime: 4,
+    new: true, // ✅ NEW badge will show
   },
 ];
+
 
 
 const HomeScreen = ({ navigation }) => {
@@ -103,6 +106,7 @@ const HomeScreen = ({ navigation }) => {
       isPopular={item.isPopular}
       difficulty={item.difficulty}
       estimatedTime={item.estimatedTime}
+      isNew={item.new} // ✅ pass new field as prop
       onPress={() =>
         navigation.replace("QuizScreen", {
           quizId: item.id,
@@ -112,6 +116,7 @@ const HomeScreen = ({ navigation }) => {
     />
   )}
 />
+
 
 
 
