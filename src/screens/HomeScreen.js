@@ -58,6 +58,8 @@ color="#007bff"
 />
 
 <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
+<Text style={styles.welcomeText}>👋 Welcome back, Genius!</Text>
+
 
   {/* ℹ️ Instructions Button */}
   <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -304,6 +306,14 @@ color: "#fff",
 fontWeight: "bold",
 fontSize: 16,
 },
+welcomeText: {
+  fontSize: 18,
+  fontWeight: "600",
+  textAlign: "center",
+  color: "#4b0082",
+  marginBottom: 12,
+},
+
 });
 
 export default HomeScreen;
