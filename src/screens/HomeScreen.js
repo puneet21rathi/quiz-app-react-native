@@ -59,6 +59,7 @@ color="#007bff"
 
 <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
 <Text style={styles.welcomeText}>👋 Welcome back, Genius!</Text>
+<Text style={styles.streakText}>🔥 Streak: 3 days in a row</Text>
 
 
   {/* ℹ️ Instructions Button */}
@@ -312,6 +313,14 @@ welcomeText: {
   textAlign: "center",
   color: "#4b0082",
   marginBottom: 12,
+},
+
+streakText: {
+fontSize: 16,
+fontWeight: "500",
+textAlign: "center",
+color: "#d35400",
+marginBottom: 10,
 },
 
 });
