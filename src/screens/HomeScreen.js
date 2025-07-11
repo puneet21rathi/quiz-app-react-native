@@ -57,10 +57,16 @@ onPress={() => navigation.replace("CategoryScreen")}
 color="#007bff"
 />
 
-<Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
-<Text style={styles.welcomeText}>👋 Welcome back, Genius!</Text>
-<Text style={styles.streakText}>🔥 Streak: 3 days in a row</Text>
+  <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
+  <Text style={styles.welcomeText}>👋 Welcome back, Genius!</Text>
+  <Text style={styles.streakText}>🔥 Streak: 3 days in a row</Text>
 
+  {/* 🎉 Motivational Banner */}
+  <View style={styles.motivationBanner}>
+    <Text style={styles.motivationText}>
+      🎉 Keep Going! Every quiz makes you smarter.
+    </Text>
+  </View>
 
   {/* ℹ️ Instructions Button */}
   <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -110,7 +116,6 @@ color="#007bff"
 
   <Text style={styles.sectionTitle}>Select a Quiz</Text>
 
-  {/* ⏳ Spinner or Quiz List */}
   {isLoading ? (
     <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 20 }} />
   ) : (
@@ -156,6 +161,8 @@ color="#007bff"
     </View>
   </Modal>
 </View>
+
+
 );
 };
 
@@ -172,6 +179,35 @@ fontWeight: "bold",
 textAlign: "center",
 marginBottom: 10,
 color: "#2c3e50",
+},
+welcomeText: {
+fontSize: 18,
+fontWeight: "600",
+textAlign: "center",
+color: "#4b0082",
+marginBottom: 6,
+},
+streakText: {
+fontSize: 16,
+fontWeight: "500",
+textAlign: "center",
+color: "#d35400",
+marginBottom: 12,
+},
+motivationBanner: {
+backgroundColor: "#eafaf1",
+borderLeftWidth: 4,
+borderLeftColor: "#2ecc71",
+padding: 12,
+borderRadius: 6,
+marginBottom: 15,
+alignItems: "center",
+},
+motivationText: {
+fontSize: 16,
+fontWeight: "600",
+color: "#2c3e50",
+textAlign: "center",
 },
 infoButton: {
 fontSize: 16,
@@ -307,22 +343,6 @@ color: "#fff",
 fontWeight: "bold",
 fontSize: 16,
 },
-welcomeText: {
-  fontSize: 18,
-  fontWeight: "600",
-  textAlign: "center",
-  color: "#4b0082",
-  marginBottom: 12,
-},
-
-streakText: {
-fontSize: 16,
-fontWeight: "500",
-textAlign: "center",
-color: "#d35400",
-marginBottom: 10,
-},
-
 });
 
 export default HomeScreen;
