@@ -50,7 +50,6 @@ quizTitle: item.title,
 
 return (
 <View style={styles.container}>
-{/* 🔙 Back Button */}
 <Button
 title="🔙 Back to Categories"
 onPress={() => navigation.replace("CategoryScreen")}
@@ -68,12 +67,17 @@ color="#007bff"
     </Text>
   </View>
 
-  {/* ℹ️ Instructions Button */}
+  {/* 🏅 Daily Achievement */}
+  <View style={styles.achievementBanner}>
+    <Text style={styles.achievementText}>
+      🏅 Daily Achievement Unlocked: You attempted 1 quiz today!
+    </Text>
+  </View>
+
   <TouchableOpacity onPress={() => setModalVisible(true)}>
     <Text style={styles.infoButton}>ℹ️ Instructions</Text>
   </TouchableOpacity>
 
-  {/* 🧠 Quote of the Day */}
   <View style={styles.quoteBox}>
     <Text style={styles.quoteIcon}>🧠</Text>
     <Text style={styles.quoteText}>
@@ -81,7 +85,6 @@ color="#007bff"
     </Text>
   </View>
 
-  {/* 💡 Tip of the Day */}
   <View style={styles.tipBox}>
     <Text style={styles.tipTitle}>💡 Tip of the Day</Text>
     <Text style={styles.tipText}>
@@ -89,7 +92,6 @@ color="#007bff"
     </Text>
   </View>
 
-  {/* 🤓 Fun Fact of the Day */}
   <View style={styles.factBox}>
     <Text style={styles.factTitle}>🤓 Fun Fact</Text>
     <Text style={styles.factText}>
@@ -97,7 +99,6 @@ color="#007bff"
     </Text>
   </View>
 
-  {/* 🎯 Quiz of the Day */}
   <View style={styles.banner}>
     <Text style={styles.bannerTitle}>🎯 Quiz of the Day</Text>
     <Text style={styles.bannerSubtitle}>Don't miss today's challenge!</Text>
@@ -136,7 +137,6 @@ color="#007bff"
     />
   )}
 
-  {/* 📌 Modal */}
   <Modal
     animationType="slide"
     transparent={true}
@@ -150,7 +150,6 @@ color="#007bff"
         <Text style={styles.modalText}>• You have 15 seconds per question.</Text>
         <Text style={styles.modalText}>• Select the correct option and click 'Check Answer'.</Text>
         <Text style={styles.modalText}>• You can restart or return home after finishing.</Text>
-
         <Pressable
           style={styles.closeButton}
           onPress={() => setModalVisible(false)}
@@ -167,12 +166,7 @@ color="#007bff"
 };
 
 const styles = StyleSheet.create({
-container: {
-flex: 1,
-padding: 20,
-paddingTop: 40,
-backgroundColor: "#fff",
-},
+container: { flex: 1, padding: 20, paddingTop: 40, backgroundColor: "#fff" },
 appTitle: {
 fontSize: 28,
 fontWeight: "bold",
@@ -207,6 +201,21 @@ motivationText: {
 fontSize: 16,
 fontWeight: "600",
 color: "#2c3e50",
+textAlign: "center",
+},
+achievementBanner: {
+backgroundColor: "#fff0e6",
+borderLeftWidth: 4,
+borderLeftColor: "#ff851b",
+padding: 12,
+borderRadius: 6,
+marginBottom: 10,
+alignItems: "center",
+},
+achievementText: {
+fontSize: 16,
+fontWeight: "600",
+color: "#bf360c",
 textAlign: "center",
 },
 infoButton: {
