@@ -6,7 +6,7 @@ A fun and interactive mobile quiz application built using React Native. Designed
 
 ## 🚀 Features
 
-- 🧠 Multiple Choice Questions
+- 🧠 Multiple Choice Questions with Extra Features
 - ✅ Instant Answer Validation
 - 📊 Score Calculation with Visual Feedback
 - 🔁 Replay Quiz Option
