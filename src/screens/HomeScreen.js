@@ -114,7 +114,8 @@ color="#007bff"
       <Text style={styles.startButtonText}>▶️ Start Now</Text>
     </TouchableOpacity>
   </View>
-
+  
+  <View style={styles.triviaBox}> <Text style={styles.triviaTitle}>💬 Did You Know?</Text> <Text style={styles.triviaText}> Honey never spoils. Archaeologists have found pots of honey in ancient tombs that are over 3000 years old and still perfectly edible! </Text> </View>
   <Text style={styles.sectionTitle}>Select a Quiz</Text>
 
   {isLoading ? (
@@ -346,6 +347,25 @@ backgroundColor: "#007bff",
 paddingVertical: 10,
 paddingHorizontal: 20,
 borderRadius: 6,
+},
+triviaBox: {
+backgroundColor: "#f0f8ff",
+padding: 12,
+borderLeftWidth: 4,
+borderLeftColor: "#1e90ff",
+borderRadius: 6,
+marginBottom: 15,
+},
+triviaTitle: {
+fontSize: 18,
+fontWeight: "bold",
+color: "#1e90ff",
+marginBottom: 6,
+},
+triviaText: {
+fontSize: 15,
+color: "#333",
+lineHeight: 20,
 },
 closeButtonText: {
 color: "#fff",
