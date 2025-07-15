@@ -11,6 +11,8 @@ Button,
 ActivityIndicator,
 } from "react-native";
 import QuizCard from "../components/QuizCard";
+const today = new Date().toDateString(); // 📅 Today's Date
+
 
 const quizzes = [
 {
@@ -55,7 +57,10 @@ title="🔙 Back to Categories"
 onPress={() => navigation.replace("CategoryScreen")}
 color="#007bff"
 />
-
+  {/* 📅 Today’s Date */}
+  <View style={styles.dateBox}>
+    <Text style={styles.dateText}>📅 Today: {today}</Text>
+  </View>
   <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
   <Text style={styles.welcomeText}>👋 Welcome back, Genius!</Text>
   <Text style={styles.streakText}>🔥 Streak: 3 days in a row</Text>
@@ -366,6 +371,21 @@ triviaText: {
 fontSize: 15,
 color: "#333",
 lineHeight: 20,
+},
+dateBox: {
+backgroundColor: "#f5f5f5",
+paddingVertical: 10,
+paddingHorizontal: 16,
+borderRadius: 8,
+alignItems: "center",
+marginBottom: 10,
+borderLeftWidth: 4,
+borderLeftColor: "#007bff",
+},
+dateText: {
+fontSize: 16,
+color: "#333",
+fontWeight: "500",
 },
 closeButtonText: {
 color: "#fff",
