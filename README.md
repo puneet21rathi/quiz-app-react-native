@@ -1,83 +1,91 @@
-# 📱 Quiz Game App (React Native)
+🚀 Features
 
-A fun and interactive mobile quiz application built using React Native. Designed to test your knowledge, track your score, and engage with clean UI animations and onboarding slides.
+🧠 Multiple Choice Questions with Extra Details (badges, time estimates)
 
----
+✅ Instant Answer Validation with visual feedback
 
-## 🚀 Features
+📊 Score Calculation with Feedback Rings & Emoji Ratings
 
-- 🧠 Multiple Choice Questions with Extra Features
-- ✅ Instant Answer Validation
-- 📊 Score Calculation with Visual Feedback
-- 🔁 Replay Quiz Option
-- ⏱️ Countdown Timer with Progress Bar
-- 🏷️ Difficulty Badge (Easy, Medium, Hard)
-- ⚠️ Exit Confirmation Alert
-- 👋 Splash Screen (2s loader)
-- 🧭 Onboarding Slider for First-Time Users
-- 📱 Optimized for Android (iOS compatible with minor tweaks)
+🔁 Replay Quiz Option from Results Screen
 
----
+⏱️ Countdown Timer with Auto-submit (for each question)
 
-## 🛠️ Technology Stack
+🏷️ Difficulty Badge: Easy | Medium | Hard
 
-- React Native, Node.js
-- JavaScript / JSX
-- React Navigation (Stack)
-- AsyncStorage (for onboarding tracking)
-- Custom Components (OptionButton, QuizCard)
+🔥 Daily Streak Display (track your consistency)
 
----
+🎯 Quiz of the Day Banner with direct start
 
-## 📸 Screenshots (optional)
+💬 Tip / Fun Fact / Quote of the Day section
 
-You can include screenshots here:
+📅 Today’s Date display
 
-- Home Screen
-- Quiz Screen with timer and difficulty
-- Result Screen
-- Onboarding Slides
-- Splash Screen
+📤 Share Your Score Button
 
----
+⚠️ Exit Confirmation Alert
 
-## 🔧 Installation & Running Locally
+👋 Splash Screen (2s animated entry)
 
-### 1. Clone the Repository
+🧭 Onboarding Slider (only for first-time users)
 
+🆕 “NEW” and “POPULAR” quiz badges
+
+⌛ Loading Spinner on quiz navigation
+
+📱 Optimized for Android (iOS-compatible with tweaks)
+
+🛠️ Technology Stack
+
+React Native (Expo/CLI)
+
+JavaScript / JSX
+
+React Navigation (Stack)
+
+AsyncStorage (onboarding tracking)
+
+Custom Reusable Components: OptionButton, QuizCard
+
+SafeAreaView, FlatList, Modal, and more native features
+
+🔧 Installation & Running Locally
+
+Clone the Repository
 
 git clone https://github.com/puneet21rathi/quiz-app-react-native.git
 cd quiz-app-react-native
 
+Install Dependencies
 
-2. Install Dependencies:- npm install
+npm install
 
-   (Also install AsyncStorage for onboarding)
+Also install AsyncStorage for onboarding:
 
-   npm install @react-native-async-storage/async-storage
+npm install @react-native-async-storage/async-storage
 
+Start Metro Bundler
 
-3. Run Metro Bundler
+npm start
 
-   npm start
+Run on Android Device / Emulator
 
-4. Run the App on Android
- 
-   npm run android
+npm run android
 
+📦 To fix Android build hanging at 99%, run this if needed:
+
+cd android
+./gradlew clean
 
 📂 Project Structure
 
 src/
 ├── components/
-│   ├── OptionButton.js
-│   └── QuizCard.js
+│ ├── OptionButton.js // Answer button with color feedback
+│ └── QuizCard.js // Quiz tile with icons, badges
 ├── screens/
-│   ├── SplashScreen.js       // NEW
-│   ├── OnboardingScreen.js   // NEW
-│   ├── HomeScreen.js
-│   ├── QuizScreen.js
-│   └── ResultScreen.js
-
-
+│ ├── SplashScreen.js // Shown for 2s on launch
+│ ├── OnboardingScreen.js // Only shows once on first install
+│ ├── HomeScreen.js // Main screen with all banners
+│ ├── QuizScreen.js // Handles questions, timer, validation
+│ └── ResultScreen.js // Summary + Share + Replay
 
