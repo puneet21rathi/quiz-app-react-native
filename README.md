@@ -28,8 +28,6 @@
 
 🧭 Onboarding Slider (only for first-time users)
 
-🆕 “NEW” and “POPULAR” quiz badges
-
 ⌛ Loading Spinner on quiz navigation
 
 📱 Optimized for Android (iOS-compatible with tweaks)
