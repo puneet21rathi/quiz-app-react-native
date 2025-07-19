@@ -154,6 +154,25 @@ const HomeScreen = ({ navigation }) => {
         </Text>
       </View>
 
+      {/* 🌟 Featured Quiz Section */}
+<View style={styles.featuredQuizBox}>
+  <Text style={styles.featuredTitle}>🌟 Featured Quiz</Text>
+  <Text style={styles.featuredSubtitle}>Challenge your brain with today’s highlight!</Text>
+  <Text style={styles.featuredQuizName}>🧪 Science Quiz</Text>
+  <TouchableOpacity
+    style={styles.featuredStartButton}
+    onPress={() =>
+      handleStartQuiz({
+        id: "1",
+        title: "Science Quiz",
+      })
+    }
+  >
+    <Text style={styles.featuredStartText}>Start Quiz ➡️</Text>
+  </TouchableOpacity>
+</View>
+
+
       <Text style={styles.sectionTitle}>Select a Quiz</Text>
 
       {isLoading ? (
@@ -419,6 +438,43 @@ const styles = StyleSheet.create({
     textAlign: "left",
     width: "100%",
   },
+  featuredQuizBox: {
+  backgroundColor: "#f0fff0",
+  borderLeftWidth: 4,
+  borderLeftColor: "#32cd32",
+  padding: 14,
+  borderRadius: 8,
+  marginBottom: 16,
+},
+featuredTitle: {
+  fontSize: 18,
+  fontWeight: "bold",
+  color: "#228b22",
+},
+featuredSubtitle: {
+  fontSize: 14,
+  color: "#333",
+  marginTop: 4,
+},
+featuredQuizName: {
+  fontSize: 16,
+  fontWeight: "600",
+  marginVertical: 8,
+  color: "#006400",
+},
+featuredStartButton: {
+  backgroundColor: "#32cd32",
+  paddingVertical: 8,
+  paddingHorizontal: 14,
+  borderRadius: 6,
+  alignSelf: "flex-start",
+},
+featuredStartText: {
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 15,
+},
+
   closeButton: {
     marginTop: 20,
     backgroundColor: "#007bff",
