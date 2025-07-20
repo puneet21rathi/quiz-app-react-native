@@ -67,6 +67,12 @@ const HomeScreen = ({ navigation }) => {
         color="#007bff"
       />
 
+      {/* 🎓 Header Banner */}
+<View style={styles.headerBanner}>
+  <Text style={styles.headerText}>🎓 Welcome to Quiz Master!</Text>
+</View>
+
+
       {/* 📅 Date */}
       <View style={styles.dateBox}>
         <Text style={styles.dateText}>📅 Today: {today}</Text>
@@ -256,6 +262,23 @@ const styles = StyleSheet.create({
     color: "#d35400",
     marginBottom: 12,
   },
+  headerBanner: {
+  backgroundColor: "#dbeafe", // Light blue background
+  paddingVertical: 14,
+  paddingHorizontal: 20,
+  borderRadius: 10,
+  marginBottom: 15,
+  alignItems: "center",
+  borderLeftWidth: 5,
+  borderLeftColor: "#6366f1", // Indigo
+  elevation: 2,
+},
+headerText: {
+  fontSize: 20,
+  fontWeight: "bold",
+  color: "#1e3a8a", // Dark blue
+},
+
   dateBox: {
     backgroundColor: "#f5f5f5",
     paddingVertical: 10,
