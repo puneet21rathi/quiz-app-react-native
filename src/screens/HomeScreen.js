@@ -77,6 +77,13 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.dateBox}>
         <Text style={styles.dateText}>📅 Today: {today}</Text>
       </View>
+      <View style={styles.messageBanner}>
+  <Text style={styles.messageTitle}>📢 Message of the Day</Text>
+  <Text style={styles.messageText}>
+    “Small progress each day adds up to big results.” 💪
+  </Text>
+</View>
+
 
       <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
       <Text style={styles.welcomeText}>👋 Welcome back, Genius!</Text>
@@ -289,6 +296,26 @@ headerText: {
     borderLeftWidth: 4,
     borderLeftColor: "#007bff",
   },
+  messageBanner: {
+  backgroundColor: "#fff4e6",
+  borderLeftWidth: 4,
+  borderLeftColor: "#f39c12",
+  padding: 12,
+  borderRadius: 6,
+  marginBottom: 15,
+},
+messageTitle: {
+  fontSize: 17,
+  fontWeight: "bold",
+  color: "#d35400",
+  marginBottom: 4,
+},
+messageText: {
+  fontSize: 15,
+  color: "#444",
+  lineHeight: 20,
+},
+
   dateText: {
     fontSize: 16,
     color: "#333",
