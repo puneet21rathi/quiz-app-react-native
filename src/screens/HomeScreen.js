@@ -115,6 +115,14 @@ const HomeScreen = ({ navigation }) => {
         </Text>
       </View>
 
+      <View style={styles.goalBanner}>
+  <Text style={styles.goalTitle}>📌 Daily Goal</Text>
+  <Text style={styles.goalText}>
+    You’ve set a goal to complete 2 quizzes today. Let’s do it! 💥
+  </Text>
+</View>
+
+
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Text style={styles.infoButton}>ℹ️ Instructions</Text>
       </TouchableOpacity>
@@ -304,6 +312,26 @@ headerText: {
   borderRadius: 6,
   marginBottom: 15,
 },
+goalBanner: {
+  backgroundColor: "#e8f9f1",
+  borderLeftWidth: 4,
+  borderLeftColor: "#20c997",
+  padding: 12,
+  borderRadius: 6,
+  marginBottom: 15,
+},
+goalTitle: {
+  fontSize: 17,
+  fontWeight: "bold",
+  color: "#0d8f70",
+  marginBottom: 4,
+},
+goalText: {
+  fontSize: 15,
+  color: "#444",
+  lineHeight: 20,
+},
+
 messageTitle: {
   fontSize: 17,
   fontWeight: "bold",
