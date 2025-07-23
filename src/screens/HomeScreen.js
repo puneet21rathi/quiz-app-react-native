@@ -88,6 +88,12 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
       <Text style={styles.welcomeText}>👋 Welcome back, Genius!</Text>
       <Text style={styles.streakText}>🔥 Streak: 3 days in a row</Text>
+      {/* 📌 Daily Goal Banner */}
+<View style={styles.dailyGoalBox}>
+  <Text style={styles.dailyGoalTitle}>📌 Daily Goal</Text>
+  <Text style={styles.dailyGoalText}>Complete 2 quizzes today to stay on your streak!</Text>
+</View>
+
 
       {/* 🎨 Color of the Day */}
       <View style={styles.colorBox}>
@@ -319,6 +325,24 @@ goalBanner: {
   padding: 12,
   borderRadius: 6,
   marginBottom: 15,
+},
+dailyGoalBox: {
+  backgroundColor: "#fff3cd",
+  borderLeftWidth: 4,
+  borderLeftColor: "#ffc107",
+  padding: 12,
+  borderRadius: 6,
+  marginBottom: 15,
+},
+dailyGoalTitle: {
+  fontSize: 18,
+  fontWeight: "bold",
+  color: "#856404",
+  marginBottom: 4,
+},
+dailyGoalText: {
+  fontSize: 15,
+  color: "#6c757d",
 },
 goalTitle: {
   fontSize: 17,
