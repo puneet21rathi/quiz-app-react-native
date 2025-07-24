@@ -10,7 +10,7 @@
 
 ⏱️ Countdown Timer with Auto-submit (for each question)
 
-🏷️ Difficulty Badge: Easy | Medium | Hard
+🏷️ Difficulty Badge: Easy | Medium | Hard :- This is based on your correct solution!
 
 🔥 Daily Streak Display (track your consistency)
 
