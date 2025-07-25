@@ -44,6 +44,9 @@ const quizzes = [
   },
 ];
 
+// ✅ Total Questions Count
+const totalQuestions = quizzes.reduce((sum, q) => sum + q.totalQuestions, 0);
+
 const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -68,42 +71,43 @@ const HomeScreen = ({ navigation }) => {
       />
 
       {/* 🎓 Header Banner */}
-<View style={styles.headerBanner}>
-  <Text style={styles.headerText}>🎓 Welcome to Quiz Master!</Text>
-</View>
-
+      <View style={styles.headerBanner}>
+        <Text style={styles.headerText}>🎓 Welcome to Quiz Master!</Text>
+      </View>
 
       {/* 📅 Date */}
       <View style={styles.dateBox}>
         <Text style={styles.dateText}>📅 Today: {today}</Text>
       </View>
-      <View style={styles.messageBanner}>
-  <Text style={styles.messageTitle}>📢 Message of the Day</Text>
-  <Text style={styles.messageText}>
-    “Small progress each day adds up to big results.” 💪
-  </Text>
-</View>
 
+      {/* 📊 Stats Strip */}
+      <View style={styles.statsStrip}>
+        <Text style={styles.statsText}>📋 Quizzes: {quizzes.length}</Text>
+        <Text style={styles.separator}>|</Text>
+        <Text style={styles.statsText}>❓ Questions: {totalQuestions}</Text>
+      </View>
+
+      <View style={styles.messageBanner}>
+        <Text style={styles.messageTitle}>📢 Message of the Day</Text>
+        <Text style={styles.messageText}>
+          “Small progress each day adds up to big results.” 💪
+        </Text>
+      </View>
 
       <Text style={styles.appTitle}>📚 Brain Boost Quiz</Text>
       <Text style={styles.welcomeText}>👋 Welcome back, Genius!</Text>
       <Text style={styles.streakText}>🔥 Streak: 3 days in a row</Text>
-      {/* 📌 Daily Goal Banner */}
-<View style={styles.dailyGoalBox}>
-  <Text style={styles.dailyGoalTitle}>📌 Daily Goal</Text>
-  <Text style={styles.dailyGoalText}>Complete 2 quizzes today to stay on your streak!</Text>
-</View>
 
+      {/* 📌 Daily Goal Banner */}
+      <View style={styles.dailyGoalBox}>
+        <Text style={styles.dailyGoalTitle}>📌 Daily Goal</Text>
+        <Text style={styles.dailyGoalText}>Complete 2 quizzes today to stay on your streak!</Text>
+      </View>
 
       {/* 🎨 Color of the Day */}
       <View style={styles.colorBox}>
         <Text style={styles.colorTitle}>🎨 Color of the Day</Text>
-        <View
-          style={[
-            styles.colorSwatch,
-            { backgroundColor: colorOfTheDay.hex },
-          ]}
-        />
+        <View style={[styles.colorSwatch, { backgroundColor: colorOfTheDay.hex }]} />
         <Text style={styles.colorName}>{colorOfTheDay.name}</Text>
       </View>
 
@@ -122,12 +126,11 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.goalBanner}>
-  <Text style={styles.goalTitle}>📌 Daily Goal</Text>
-  <Text style={styles.goalText}>
-    You’ve set a goal to complete 2 quizzes today. Let’s do it! 💥
-  </Text>
-</View>
-
+        <Text style={styles.goalTitle}>📌 Daily Goal</Text>
+        <Text style={styles.goalText}>
+          You’ve set a goal to complete 2 quizzes today. Let’s do it! 💥
+        </Text>
+      </View>
 
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Text style={styles.infoButton}>ℹ️ Instructions</Text>
@@ -150,16 +153,13 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.factBox}>
         <Text style={styles.factTitle}>🤓 Fun Fact</Text>
         <Text style={styles.factText}>
-          Did you know? The Eiffel Tower can grow over 6 inches during hot
-          days due to thermal expansion!
+          Did you know? The Eiffel Tower can grow over 6 inches during hot days due to thermal expansion!
         </Text>
       </View>
 
       <View style={styles.banner}>
         <Text style={styles.bannerTitle}>🎯 Quiz of the Day</Text>
-        <Text style={styles.bannerSubtitle}>
-          Don't miss today's challenge!
-        </Text>
+        <Text style={styles.bannerSubtitle}>Don't miss today's challenge!</Text>
         <TouchableOpacity
           style={styles.startButton}
           onPress={() =>
@@ -176,38 +176,32 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.triviaBox}>
         <Text style={styles.triviaTitle}>💬 Did You Know?</Text>
         <Text style={styles.triviaText}>
-          Honey never spoils. Archaeologists have found pots of honey in
-          ancient tombs that are over 3000 years old and still perfectly edible!
+          Honey never spoils. Archaeologists have found pots of honey in ancient tombs that are over 3000 years old and still perfectly edible!
         </Text>
       </View>
 
       {/* 🌟 Featured Quiz Section */}
-<View style={styles.featuredQuizBox}>
-  <Text style={styles.featuredTitle}>🌟 Featured Quiz</Text>
-  <Text style={styles.featuredSubtitle}>Challenge your brain with today’s highlight!</Text>
-  <Text style={styles.featuredQuizName}>🧪 Science Quiz</Text>
-  <TouchableOpacity
-    style={styles.featuredStartButton}
-    onPress={() =>
-      handleStartQuiz({
-        id: "1",
-        title: "Science Quiz",
-      })
-    }
-  >
-    <Text style={styles.featuredStartText}>Start Quiz ➡️</Text>
-  </TouchableOpacity>
-</View>
-
+      <View style={styles.featuredQuizBox}>
+        <Text style={styles.featuredTitle}>🌟 Featured Quiz</Text>
+        <Text style={styles.featuredSubtitle}>Challenge your brain with today’s highlight!</Text>
+        <Text style={styles.featuredQuizName}>🧪 Science Quiz</Text>
+        <TouchableOpacity
+          style={styles.featuredStartButton}
+          onPress={() =>
+            handleStartQuiz({
+              id: "1",
+              title: "Science Quiz",
+            })
+          }
+        >
+          <Text style={styles.featuredStartText}>Start Quiz ➡️</Text>
+        </TouchableOpacity>
+      </View>
 
       <Text style={styles.sectionTitle}>Select a Quiz</Text>
 
       {isLoading ? (
-        <ActivityIndicator
-          size="large"
-          color="#007bff"
-          style={{ marginTop: 20 }}
-        />
+        <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 20 }} />
       ) : (
         <FlatList
           data={quizzes}
@@ -235,22 +229,11 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>📝 Quiz Instructions</Text>
-            <Text style={styles.modalText}>
-              • Each quiz contains 5 questions.
-            </Text>
-            <Text style={styles.modalText}>
-              • You have 15 seconds per question.
-            </Text>
-            <Text style={styles.modalText}>
-              • Select the correct option and click 'Check Answer'.
-            </Text>
-            <Text style={styles.modalText}>
-              • You can restart or return home after finishing.
-            </Text>
-            <Pressable
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
+            <Text style={styles.modalText}>• Each quiz contains 5 questions.</Text>
+            <Text style={styles.modalText}>• You have 15 seconds per question.</Text>
+            <Text style={styles.modalText}>• Select the correct option and click 'Check Answer'.</Text>
+            <Text style={styles.modalText}>• You can restart or return home after finishing.</Text>
+            <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
               <Text style={styles.closeButtonText}>Close</Text>
             </Pressable>
           </View>
@@ -262,6 +245,19 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, paddingTop: 40, backgroundColor: "#fff" },
+  
+  statsStrip: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#eef2ff",
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginBottom: 15,
+  },
+  statsText: { fontSize: 15, fontWeight: "600", color: "#374151", paddingHorizontal: 6 },
+  separator: { color: "#6b7280", fontSize: 16, paddingHorizontal: 4 },
+
   appTitle: {
     fontSize: 28,
     fontWeight: "bold",
@@ -284,22 +280,21 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   headerBanner: {
-  backgroundColor: "#dbeafe", // Light blue background
-  paddingVertical: 14,
-  paddingHorizontal: 20,
-  borderRadius: 10,
-  marginBottom: 15,
-  alignItems: "center",
-  borderLeftWidth: 5,
-  borderLeftColor: "#6366f1", // Indigo
-  elevation: 2,
-},
-headerText: {
-  fontSize: 20,
-  fontWeight: "bold",
-  color: "#1e3a8a", // Dark blue
-},
-
+    backgroundColor: "#dbeafe",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    marginBottom: 15,
+    alignItems: "center",
+    borderLeftWidth: 5,
+    borderLeftColor: "#6366f1",
+    elevation: 2,
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#1e3a8a",
+  },
   dateBox: {
     backgroundColor: "#f5f5f5",
     paddingVertical: 10,
@@ -311,63 +306,61 @@ headerText: {
     borderLeftColor: "#007bff",
   },
   messageBanner: {
-  backgroundColor: "#fff4e6",
-  borderLeftWidth: 4,
-  borderLeftColor: "#f39c12",
-  padding: 12,
-  borderRadius: 6,
-  marginBottom: 15,
-},
-goalBanner: {
-  backgroundColor: "#e8f9f1",
-  borderLeftWidth: 4,
-  borderLeftColor: "#20c997",
-  padding: 12,
-  borderRadius: 6,
-  marginBottom: 15,
-},
-dailyGoalBox: {
-  backgroundColor: "#fff3cd",
-  borderLeftWidth: 4,
-  borderLeftColor: "#ffc107",
-  padding: 12,
-  borderRadius: 6,
-  marginBottom: 15,
-},
-dailyGoalTitle: {
-  fontSize: 18,
-  fontWeight: "bold",
-  color: "#856404",
-  marginBottom: 4,
-},
-dailyGoalText: {
-  fontSize: 15,
-  color: "#6c757d",
-},
-goalTitle: {
-  fontSize: 17,
-  fontWeight: "bold",
-  color: "#0d8f70",
-  marginBottom: 4,
-},
-goalText: {
-  fontSize: 15,
-  color: "#444",
-  lineHeight: 20,
-},
-
-messageTitle: {
-  fontSize: 17,
-  fontWeight: "bold",
-  color: "#d35400",
-  marginBottom: 4,
-},
-messageText: {
-  fontSize: 15,
-  color: "#444",
-  lineHeight: 20,
-},
-
+    backgroundColor: "#fff4e6",
+    borderLeftWidth: 4,
+    borderLeftColor: "#f39c12",
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 15,
+  },
+  goalBanner: {
+    backgroundColor: "#e8f9f1",
+    borderLeftWidth: 4,
+    borderLeftColor: "#20c997",
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 15,
+  },
+  dailyGoalBox: {
+    backgroundColor: "#fff3cd",
+    borderLeftWidth: 4,
+    borderLeftColor: "#ffc107",
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 15,
+  },
+  dailyGoalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#856404",
+    marginBottom: 4,
+  },
+  dailyGoalText: {
+    fontSize: 15,
+    color: "#6c757d",
+  },
+  goalTitle: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "#0d8f70",
+    marginBottom: 4,
+  },
+  goalText: {
+    fontSize: 15,
+    color: "#444",
+    lineHeight: 20,
+  },
+  messageTitle: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "#d35400",
+    marginBottom: 4,
+  },
+  messageText: {
+    fontSize: 15,
+    color: "#444",
+    lineHeight: 20,
+  },
   dateText: {
     fontSize: 16,
     color: "#333",
@@ -541,41 +534,41 @@ messageText: {
     width: "100%",
   },
   featuredQuizBox: {
-  backgroundColor: "#f0fff0",
-  borderLeftWidth: 4,
-  borderLeftColor: "#32cd32",
-  padding: 14,
-  borderRadius: 8,
-  marginBottom: 16,
-},
-featuredTitle: {
-  fontSize: 18,
-  fontWeight: "bold",
-  color: "#228b22",
-},
-featuredSubtitle: {
-  fontSize: 14,
-  color: "#333",
-  marginTop: 4,
-},
-featuredQuizName: {
-  fontSize: 16,
-  fontWeight: "600",
-  marginVertical: 8,
-  color: "#006400",
-},
-featuredStartButton: {
-  backgroundColor: "#32cd32",
-  paddingVertical: 8,
-  paddingHorizontal: 14,
-  borderRadius: 6,
-  alignSelf: "flex-start",
-},
-featuredStartText: {
-  color: "#fff",
-  fontWeight: "bold",
-  fontSize: 15,
-},
+    backgroundColor: "#f0fff0",
+    borderLeftWidth: 4,
+    borderLeftColor: "#32cd32",
+    padding: 14,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  featuredTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#228b22",
+  },
+  featuredSubtitle: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 4,
+  },
+  featuredQuizName: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginVertical: 8,
+    color: "#006400",
+  },
+  featuredStartButton: {
+    backgroundColor: "#32cd32",
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 6,
+    alignSelf: "flex-start",
+  },
+  featuredStartText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 15,
+  },
 
   closeButton: {
     marginTop: 20,
