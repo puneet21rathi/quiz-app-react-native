@@ -44,8 +44,13 @@ const quizzes = [
   },
 ];
 
-// ✅ Total Questions Count
+// ✅ 25 July: Total Questions Count
 const totalQuestions = quizzes.reduce((sum, q) => sum + q.totalQuestions, 0);
+
+// ✅ 26 July: Dummy Daily Goal Progress
+const GOAL_QUIZZES = 2;
+const ATTEMPTED_TODAY = 1; // <- change later via state/AsyncStorage
+const progressPct = Math.min((ATTEMPTED_TODAY / GOAL_QUIZZES) * 100, 100);
 
 const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -87,6 +92,7 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.statsText}>❓ Questions: {totalQuestions}</Text>
       </View>
 
+      {/* 📢 Message of the Day */}
       <View style={styles.messageBanner}>
         <Text style={styles.messageTitle}>📢 Message of the Day</Text>
         <Text style={styles.messageText}>
@@ -101,7 +107,19 @@ const HomeScreen = ({ navigation }) => {
       {/* 📌 Daily Goal Banner */}
       <View style={styles.dailyGoalBox}>
         <Text style={styles.dailyGoalTitle}>📌 Daily Goal</Text>
-        <Text style={styles.dailyGoalText}>Complete 2 quizzes today to stay on your streak!</Text>
+        <Text style={styles.dailyGoalText}>
+          Complete {GOAL_QUIZZES} quizzes today to stay on your streak!
+        </Text>
+
+        {/* ✅ 26 July: Progress Bar */}
+        <View style={styles.progressWrapper}>
+          <View style={styles.progressBarBg}>
+          <View style={[styles.progressBarFill, { width: `${progressPct}%` }]} />
+          </View>
+          <Text style={styles.progressLabel}>
+            {ATTEMPTED_TODAY}/{GOAL_QUIZZES} completed
+          </Text>
+        </View>
       </View>
 
       {/* 🎨 Color of the Day */}
@@ -125,6 +143,7 @@ const HomeScreen = ({ navigation }) => {
         </Text>
       </View>
 
+      {/* (Old goal banner - keeping as secondary) */}
       <View style={styles.goalBanner}>
         <Text style={styles.goalTitle}>📌 Daily Goal</Text>
         <Text style={styles.goalText}>
@@ -243,9 +262,32 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
+// ---------------------  STYLES  ---------------------
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, paddingTop: 40, backgroundColor: "#fff" },
-  
+
+  // ✅ 26 July: Progress Bar
+  progressWrapper: {
+    marginTop: 10,
+  },
+  progressBarBg: {
+    height: 10,
+    backgroundColor: "#e9ecef",
+    borderRadius: 6,
+    overflow: "hidden",
+  },
+  progressBarFill: {
+    height: 10,
+    backgroundColor: "#28a745",
+    borderRadius: 6,
+  },
+  progressLabel: {
+    marginTop: 6,
+    fontSize: 13,
+    color: "#495057",
+    fontWeight: "500",
+  },
+
   statsStrip: {
     flexDirection: "row",
     justifyContent: "center",
@@ -569,7 +611,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
   },
-
   closeButton: {
     marginTop: 20,
     backgroundColor: "#007bff",
