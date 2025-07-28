@@ -20,7 +20,7 @@
 
 📅 Today’s Date display
 
-📤 Share Your Score Button
+📤 Share Your Score Button with additional facilities
 
 ⚠️ Exit Confirmation Alert
 
