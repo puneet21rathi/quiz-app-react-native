@@ -20,13 +20,13 @@
 
 📅 Today’s Date display
 
-📤 Share Your Score Button with additional facilities
+📤 Share Your Score Button with additional facilities 
 
 ⚠️ Exit Confirmation Alert
 
 👋 Splash Screen (2s animated entry)
 
-🧭 Onboarding Slider (only for first-time users)
+🧭 Onboarding Slider (only for first-time users) and for limited time
 
 ⌛ Loading Spinner on quiz navigation
 
